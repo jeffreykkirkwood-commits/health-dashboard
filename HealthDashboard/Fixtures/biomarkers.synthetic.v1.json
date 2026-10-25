@@ -1,0 +1,2503 @@
+{
+  "schemaVersion": 1,
+  "syntheticOnly": true,
+  "reports": [
+    {
+      "id": "report-aug",
+      "sourceIdentifiers": [
+        {
+          "system": "urn:health-dashboard:synthetic:reports",
+          "value": "report-aug"
+        }
+      ],
+      "subjectID": "SYNTHETIC-person-001",
+      "subjectDisplay": "SYNTHETIC Sample Person",
+      "title": "SYNTHETIC demo bloodwork report",
+      "providerDisplay": "SYNTHETIC Example Laboratory — fictional",
+      "status": "final",
+      "issuedAt": "2026-08-01T08:00:00Z",
+      "replacesReportID": null,
+      "observations": [
+        {
+          "id": "aug",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "aug"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "glucose-demo",
+              "display": "Glucose — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "88 mg/dL",
+            "quantity": {
+              "decimal": "88",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+            {
+              "rawText": "SYNTHETIC illustrative range only: 70–99 mg/dL; not clinical guidance",
+              "low": {
+                "decimal": "70",
+                "comparator": null,
+                "reportedUnit": "mg/dL",
+                "unitCoding": null
+              },
+              "high": {
+                "decimal": "99",
+                "comparator": null,
+                "reportedUnit": "mg/dL",
+                "unitCoding": null
+              },
+              "appliesTo": [
+
+              ],
+              "ageText": null
+            }
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-aug-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-08-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-08-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-08-01T08:00:00Z",
+          "issuedAt": "2026-08-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-aug",
+            "sourceLocator": "observations/aug",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-aug-hba1c-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-aug-hba1c-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "hba1c-demo",
+              "display": "HbA1c — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "5.1 %",
+            "quantity": {
+              "decimal": "5.1",
+              "comparator": null,
+              "reportedUnit": "%",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-aug-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-08-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-08-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-08-01T08:00:00Z",
+          "issuedAt": "2026-08-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-aug",
+            "sourceLocator": "observations/report-aug-hba1c-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-aug-cholesterol-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-aug-cholesterol-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "cholesterol-demo",
+              "display": "Total cholesterol — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "178 mg/dL",
+            "quantity": {
+              "decimal": "178",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-aug-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-08-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-08-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-08-01T08:00:00Z",
+          "issuedAt": "2026-08-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-aug",
+            "sourceLocator": "observations/report-aug-cholesterol-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-aug-hdl-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-aug-hdl-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "hdl-demo",
+              "display": "HDL cholesterol — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "52 mg/dL",
+            "quantity": {
+              "decimal": "52",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-aug-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-08-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-08-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-08-01T08:00:00Z",
+          "issuedAt": "2026-08-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-aug",
+            "sourceLocator": "observations/report-aug-hdl-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-aug-ldl-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-aug-ldl-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "ldl-demo",
+              "display": "LDL cholesterol — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "101 mg/dL",
+            "quantity": {
+              "decimal": "101",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-aug-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-08-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-08-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-08-01T08:00:00Z",
+          "issuedAt": "2026-08-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-aug",
+            "sourceLocator": "observations/report-aug-ldl-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-aug-triglycerides-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-aug-triglycerides-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "triglycerides-demo",
+              "display": "Triglycerides — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "125 mg/dL",
+            "quantity": {
+              "decimal": "125",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-aug-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-08-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-08-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-08-01T08:00:00Z",
+          "issuedAt": "2026-08-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-aug",
+            "sourceLocator": "observations/report-aug-triglycerides-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-aug-ferritin-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-aug-ferritin-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "ferritin-demo",
+              "display": "Ferritin — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "65 ng/mL",
+            "quantity": {
+              "decimal": "65",
+              "comparator": null,
+              "reportedUnit": "ng/mL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-aug-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-08-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-08-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-08-01T08:00:00Z",
+          "issuedAt": "2026-08-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-aug",
+            "sourceLocator": "observations/report-aug-ferritin-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        }
+      ],
+      "provenance": {
+        "sourceName": "SYNTHETIC Example Laboratory — fictional",
+        "sourceFormat": "app-demo-json-v1",
+        "sourceDocumentID": "report-aug",
+        "sourceLocator": null,
+        "importedAt": "2026-10-25T12:00:00Z",
+        "transformationVersion": "synthetic-fixture-v1",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "report-sep",
+      "sourceIdentifiers": [
+        {
+          "system": "urn:health-dashboard:synthetic:reports",
+          "value": "report-sep"
+        }
+      ],
+      "subjectID": "SYNTHETIC-person-001",
+      "subjectDisplay": "SYNTHETIC Sample Person",
+      "title": "SYNTHETIC demo bloodwork report",
+      "providerDisplay": "SYNTHETIC Example Laboratory — fictional",
+      "status": "final",
+      "issuedAt": "2026-09-01T08:00:00Z",
+      "replacesReportID": null,
+      "observations": [
+        {
+          "id": "sep-missing",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "sep-missing"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "glucose-demo",
+              "display": "Glucose — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "missing",
+            "rawText": "SYNTHETIC specimen unavailable",
+            "quantity": null,
+            "qualitative": null,
+            "missingReason": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "not-performed",
+              "display": "SYNTHETIC not performed"
+            }
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-sep-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-09-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-09-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-09-01T08:00:00Z",
+          "issuedAt": "2026-09-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-sep",
+            "sourceLocator": "observations/sep-missing",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-sep-hba1c-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-sep-hba1c-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "hba1c-demo",
+              "display": "HbA1c — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "5.3 %",
+            "quantity": {
+              "decimal": "5.3",
+              "comparator": null,
+              "reportedUnit": "%",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-sep-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-09-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-09-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-09-01T08:00:00Z",
+          "issuedAt": "2026-09-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-sep",
+            "sourceLocator": "observations/report-sep-hba1c-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-sep-cholesterol-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-sep-cholesterol-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "cholesterol-demo",
+              "display": "Total cholesterol — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "182 mg/dL",
+            "quantity": {
+              "decimal": "182",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-sep-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-09-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-09-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-09-01T08:00:00Z",
+          "issuedAt": "2026-09-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-sep",
+            "sourceLocator": "observations/report-sep-cholesterol-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-sep-hdl-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-sep-hdl-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "hdl-demo",
+              "display": "HDL cholesterol — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "54 mg/dL",
+            "quantity": {
+              "decimal": "54",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-sep-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-09-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-09-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-09-01T08:00:00Z",
+          "issuedAt": "2026-09-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-sep",
+            "sourceLocator": "observations/report-sep-hdl-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-sep-ldl-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-sep-ldl-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "ldl-demo",
+              "display": "LDL cholesterol — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "105 mg/dL",
+            "quantity": {
+              "decimal": "105",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-sep-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-09-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-09-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-09-01T08:00:00Z",
+          "issuedAt": "2026-09-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-sep",
+            "sourceLocator": "observations/report-sep-ldl-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-sep-triglycerides-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-sep-triglycerides-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "triglycerides-demo",
+              "display": "Triglycerides — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "115 mg/dL",
+            "quantity": {
+              "decimal": "115",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-sep-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-09-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-09-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-09-01T08:00:00Z",
+          "issuedAt": "2026-09-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-sep",
+            "sourceLocator": "observations/report-sep-triglycerides-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-sep-ferritin-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-sep-ferritin-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "ferritin-demo",
+              "display": "Ferritin — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "68 ng/mL",
+            "quantity": {
+              "decimal": "68",
+              "comparator": null,
+              "reportedUnit": "ng/mL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-sep-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-09-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-09-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-09-01T08:00:00Z",
+          "issuedAt": "2026-09-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-sep",
+            "sourceLocator": "observations/report-sep-ferritin-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        }
+      ],
+      "provenance": {
+        "sourceName": "SYNTHETIC Example Laboratory — fictional",
+        "sourceFormat": "app-demo-json-v1",
+        "sourceDocumentID": "report-sep",
+        "sourceLocator": null,
+        "importedAt": "2026-10-25T12:00:00Z",
+        "transformationVersion": "synthetic-fixture-v1",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "report-oct-v1",
+      "sourceIdentifiers": [
+        {
+          "system": "urn:health-dashboard:synthetic:reports",
+          "value": "report-oct-v1"
+        }
+      ],
+      "subjectID": "SYNTHETIC-person-001",
+      "subjectDisplay": "SYNTHETIC Sample Person",
+      "title": "SYNTHETIC demo bloodwork report",
+      "providerDisplay": "SYNTHETIC Example Laboratory — fictional",
+      "status": "final",
+      "issuedAt": "2026-10-01T08:00:00Z",
+      "replacesReportID": null,
+      "observations": [
+        {
+          "id": "oct-v1",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "oct-v1"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "glucose-demo",
+              "display": "Glucose — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "104 mg/dL",
+            "quantity": {
+              "decimal": "104",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+            {
+              "rawText": "SYNTHETIC illustrative range only: 70–99 mg/dL; not clinical guidance",
+              "low": {
+                "decimal": "70",
+                "comparator": null,
+                "reportedUnit": "mg/dL",
+                "unitCoding": null
+              },
+              "high": {
+                "decimal": "99",
+                "comparator": null,
+                "reportedUnit": "mg/dL",
+                "unitCoding": null
+              },
+              "appliesTo": [
+
+              ],
+              "ageText": null
+            }
+          ],
+          "interpretation": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "H-demo",
+              "display": "SYNTHETIC source high flag"
+            }
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-oct-v1-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-01T08:00:00Z",
+          "issuedAt": "2026-10-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-oct-v1",
+            "sourceLocator": "observations/oct-v1",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-oct-v1-hba1c-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-oct-v1-hba1c-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "hba1c-demo",
+              "display": "HbA1c — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "5.2 %",
+            "quantity": {
+              "decimal": "5.2",
+              "comparator": null,
+              "reportedUnit": "%",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-oct-v1-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-01T08:00:00Z",
+          "issuedAt": "2026-10-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-oct-v1",
+            "sourceLocator": "observations/report-oct-v1-hba1c-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-oct-v1-cholesterol-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-oct-v1-cholesterol-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "cholesterol-demo",
+              "display": "Total cholesterol — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "176 mg/dL",
+            "quantity": {
+              "decimal": "176",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-oct-v1-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-01T08:00:00Z",
+          "issuedAt": "2026-10-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-oct-v1",
+            "sourceLocator": "observations/report-oct-v1-cholesterol-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-oct-v1-hdl-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-oct-v1-hdl-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "hdl-demo",
+              "display": "HDL cholesterol — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "53 mg/dL",
+            "quantity": {
+              "decimal": "53",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-oct-v1-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-01T08:00:00Z",
+          "issuedAt": "2026-10-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-oct-v1",
+            "sourceLocator": "observations/report-oct-v1-hdl-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-oct-v1-ldl-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-oct-v1-ldl-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "ldl-demo",
+              "display": "LDL cholesterol — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "99 mg/dL",
+            "quantity": {
+              "decimal": "99",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-oct-v1-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-01T08:00:00Z",
+          "issuedAt": "2026-10-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-oct-v1",
+            "sourceLocator": "observations/report-oct-v1-ldl-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-oct-v1-triglycerides-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-oct-v1-triglycerides-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "triglycerides-demo",
+              "display": "Triglycerides — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "120 mg/dL",
+            "quantity": {
+              "decimal": "120",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-oct-v1-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-01T08:00:00Z",
+          "issuedAt": "2026-10-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-oct-v1",
+            "sourceLocator": "observations/report-oct-v1-triglycerides-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-oct-v1-ferritin-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-oct-v1-ferritin-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "ferritin-demo",
+              "display": "Ferritin — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "66 ng/mL",
+            "quantity": {
+              "decimal": "66",
+              "comparator": null,
+              "reportedUnit": "ng/mL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-oct-v1-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-01T08:00:00Z",
+          "issuedAt": "2026-10-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-oct-v1",
+            "sourceLocator": "observations/report-oct-v1-ferritin-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        }
+      ],
+      "provenance": {
+        "sourceName": "SYNTHETIC Example Laboratory — fictional",
+        "sourceFormat": "app-demo-json-v1",
+        "sourceDocumentID": "report-oct-v1",
+        "sourceLocator": null,
+        "importedAt": "2026-10-25T12:00:00Z",
+        "transformationVersion": "synthetic-fixture-v1",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "report-oct-v2",
+      "sourceIdentifiers": [
+        {
+          "system": "urn:health-dashboard:synthetic:reports",
+          "value": "report-oct-v2"
+        }
+      ],
+      "subjectID": "SYNTHETIC-person-001",
+      "subjectDisplay": "SYNTHETIC Sample Person",
+      "title": "SYNTHETIC demo bloodwork report",
+      "providerDisplay": "SYNTHETIC Example Laboratory — fictional",
+      "status": "amended",
+      "issuedAt": "2026-10-02T10:00:00Z",
+      "replacesReportID": "report-oct-v1",
+      "observations": [
+        {
+          "id": "oct-v2",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "oct-v2"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "glucose-demo",
+              "display": "Glucose — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "94 mg/dL",
+            "quantity": {
+              "decimal": "94",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+            {
+              "rawText": "SYNTHETIC illustrative range only: 70–99 mg/dL; not clinical guidance",
+              "low": {
+                "decimal": "70",
+                "comparator": null,
+                "reportedUnit": "mg/dL",
+                "unitCoding": null
+              },
+              "high": {
+                "decimal": "99",
+                "comparator": null,
+                "reportedUnit": "mg/dL",
+                "unitCoding": null
+              },
+              "appliesTo": [
+
+              ],
+              "ageText": null
+            }
+          ],
+          "interpretation": [
+
+          ],
+          "status": "amended",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-oct-v2-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-01T08:00:00Z",
+          "issuedAt": "2026-10-02T10:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": "oct-v1",
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-oct-v2",
+            "sourceLocator": "observations/oct-v2",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-oct-v2-hba1c-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-oct-v2-hba1c-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "hba1c-demo",
+              "display": "HbA1c — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "5.2 %",
+            "quantity": {
+              "decimal": "5.2",
+              "comparator": null,
+              "reportedUnit": "%",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "amended",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-oct-v2-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-01T08:00:00Z",
+          "issuedAt": "2026-10-02T10:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": "report-oct-v1-hba1c-demo",
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-oct-v2",
+            "sourceLocator": "observations/report-oct-v2-hba1c-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-oct-v2-cholesterol-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-oct-v2-cholesterol-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "cholesterol-demo",
+              "display": "Total cholesterol — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "176 mg/dL",
+            "quantity": {
+              "decimal": "176",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "amended",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-oct-v2-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-01T08:00:00Z",
+          "issuedAt": "2026-10-02T10:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": "report-oct-v1-cholesterol-demo",
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-oct-v2",
+            "sourceLocator": "observations/report-oct-v2-cholesterol-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-oct-v2-hdl-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-oct-v2-hdl-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "hdl-demo",
+              "display": "HDL cholesterol — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "53 mg/dL",
+            "quantity": {
+              "decimal": "53",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "amended",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-oct-v2-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-01T08:00:00Z",
+          "issuedAt": "2026-10-02T10:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": "report-oct-v1-hdl-demo",
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-oct-v2",
+            "sourceLocator": "observations/report-oct-v2-hdl-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-oct-v2-ldl-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-oct-v2-ldl-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "ldl-demo",
+              "display": "LDL cholesterol — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "99 mg/dL",
+            "quantity": {
+              "decimal": "99",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "amended",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-oct-v2-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-01T08:00:00Z",
+          "issuedAt": "2026-10-02T10:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": "report-oct-v1-ldl-demo",
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-oct-v2",
+            "sourceLocator": "observations/report-oct-v2-ldl-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-oct-v2-triglycerides-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-oct-v2-triglycerides-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "triglycerides-demo",
+              "display": "Triglycerides — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "120 mg/dL",
+            "quantity": {
+              "decimal": "120",
+              "comparator": null,
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "amended",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-oct-v2-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-01T08:00:00Z",
+          "issuedAt": "2026-10-02T10:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": "report-oct-v1-triglycerides-demo",
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-oct-v2",
+            "sourceLocator": "observations/report-oct-v2-triglycerides-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        },
+        {
+          "id": "report-oct-v2-ferritin-demo",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "report-oct-v2-ferritin-demo"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "ferritin-demo",
+              "display": "Ferritin — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "66 ng/mL",
+            "quantity": {
+              "decimal": "66",
+              "comparator": null,
+              "reportedUnit": "ng/mL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "amended",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-oct-v2-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-01T08:00:00Z",
+          "issuedAt": "2026-10-02T10:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": "report-oct-v1-ferritin-demo",
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-oct-v2",
+            "sourceLocator": "observations/report-oct-v2-ferritin-demo",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        }
+      ],
+      "provenance": {
+        "sourceName": "SYNTHETIC Example Laboratory — fictional",
+        "sourceFormat": "app-demo-json-v1",
+        "sourceDocumentID": "report-oct-v2",
+        "sourceLocator": null,
+        "importedAt": "2026-10-25T12:00:00Z",
+        "transformationVersion": "synthetic-fixture-v1",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "report-qual",
+      "sourceIdentifiers": [
+        {
+          "system": "urn:health-dashboard:synthetic:reports",
+          "value": "report-qual"
+        }
+      ],
+      "subjectID": "SYNTHETIC-person-001",
+      "subjectDisplay": "SYNTHETIC Sample Person",
+      "title": "SYNTHETIC demo bloodwork report",
+      "providerDisplay": "SYNTHETIC Example Laboratory — fictional",
+      "status": "final",
+      "issuedAt": "2026-10-02T08:00:00Z",
+      "replacesReportID": null,
+      "observations": [
+        {
+          "id": "screen",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "screen"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "screen-demo",
+              "display": "Qualitative screen — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "qualitative",
+            "rawText": "SYNTHETIC negative",
+            "quantity": null,
+            "qualitative": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "negative",
+              "display": "SYNTHETIC negative"
+            },
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-qual-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-02T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-02T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-02T08:00:00Z",
+          "issuedAt": "2026-10-02T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-qual",
+            "sourceLocator": "observations/screen",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        }
+      ],
+      "provenance": {
+        "sourceName": "SYNTHETIC Example Laboratory — fictional",
+        "sourceFormat": "app-demo-json-v1",
+        "sourceDocumentID": "report-qual",
+        "sourceLocator": null,
+        "importedAt": "2026-10-25T12:00:00Z",
+        "transformationVersion": "synthetic-fixture-v1",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "report-units",
+      "sourceIdentifiers": [
+        {
+          "system": "urn:health-dashboard:synthetic:reports",
+          "value": "report-units"
+        }
+      ],
+      "subjectID": "SYNTHETIC-person-001",
+      "subjectDisplay": "SYNTHETIC Sample Person",
+      "title": "SYNTHETIC demo bloodwork report",
+      "providerDisplay": "SYNTHETIC Example Laboratory — fictional",
+      "status": "final",
+      "issuedAt": "2026-10-03T08:00:00Z",
+      "replacesReportID": null,
+      "observations": [
+        {
+          "id": "different-unit",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "different-unit"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "glucose-demo",
+              "display": "Glucose — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "5.2 mmol/L",
+            "quantity": {
+              "decimal": "5.2",
+              "comparator": null,
+              "reportedUnit": "mmol/L",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-units-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-03T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-03T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-03T08:00:00Z",
+          "issuedAt": "2026-10-03T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-units",
+            "sourceLocator": "observations/different-unit",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        }
+      ],
+      "provenance": {
+        "sourceName": "SYNTHETIC Example Laboratory — fictional",
+        "sourceFormat": "app-demo-json-v1",
+        "sourceDocumentID": "report-units",
+        "sourceLocator": null,
+        "importedAt": "2026-10-25T12:00:00Z",
+        "transformationVersion": "synthetic-fixture-v1",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "report-censored",
+      "sourceIdentifiers": [
+        {
+          "system": "urn:health-dashboard:synthetic:reports",
+          "value": "report-censored"
+        }
+      ],
+      "subjectID": "SYNTHETIC-person-001",
+      "subjectDisplay": "SYNTHETIC Sample Person",
+      "title": "SYNTHETIC demo bloodwork report",
+      "providerDisplay": "SYNTHETIC Example Laboratory — fictional",
+      "status": "final",
+      "issuedAt": "2026-10-04T08:00:00Z",
+      "replacesReportID": null,
+      "observations": [
+        {
+          "id": "censored",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "censored"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "glucose-demo",
+              "display": "Glucose — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "quantity",
+            "rawText": "<80 mg/dL",
+            "quantity": {
+              "decimal": "80",
+              "comparator": "<",
+              "reportedUnit": "mg/dL",
+              "unitCoding": null
+            },
+            "qualitative": null,
+            "missingReason": null
+          },
+          "referenceRanges": [
+            {
+              "rawText": "SYNTHETIC illustrative range only: 70–99 mg/dL; not clinical guidance",
+              "low": {
+                "decimal": "70",
+                "comparator": null,
+                "reportedUnit": "mg/dL",
+                "unitCoding": null
+              },
+              "high": {
+                "decimal": "99",
+                "comparator": null,
+                "reportedUnit": "mg/dL",
+                "unitCoding": null
+              },
+              "appliesTo": [
+
+              ],
+              "ageText": null
+            }
+          ],
+          "interpretation": [
+
+          ],
+          "status": "final",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-censored-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-10-04T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-10-04T08:00:00Z"
+          },
+          "effectiveAt": "2026-10-04T08:00:00Z",
+          "issuedAt": "2026-10-04T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-censored",
+            "sourceLocator": "observations/censored",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        }
+      ],
+      "provenance": {
+        "sourceName": "SYNTHETIC Example Laboratory — fictional",
+        "sourceFormat": "app-demo-json-v1",
+        "sourceDocumentID": "report-censored",
+        "sourceLocator": null,
+        "importedAt": "2026-10-25T12:00:00Z",
+        "transformationVersion": "synthetic-fixture-v1",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "report-cancelled",
+      "sourceIdentifiers": [
+        {
+          "system": "urn:health-dashboard:synthetic:reports",
+          "value": "report-cancelled"
+        }
+      ],
+      "subjectID": "SYNTHETIC-person-001",
+      "subjectDisplay": "SYNTHETIC Sample Person",
+      "title": "SYNTHETIC demo bloodwork report",
+      "providerDisplay": "SYNTHETIC Example Laboratory — fictional",
+      "status": "cancelled",
+      "issuedAt": "2026-09-01T08:00:00Z",
+      "replacesReportID": null,
+      "observations": [
+        {
+          "id": "cancelled-glucose",
+          "sourceIdentifiers": [
+            {
+              "system": "urn:health-dashboard:synthetic:results",
+              "value": "cancelled-glucose"
+            }
+          ],
+          "analyte": [
+            {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "glucose-demo",
+              "display": "Glucose — SYNTHETIC example"
+            }
+          ],
+          "value": {
+            "kind": "missing",
+            "rawText": "SYNTHETIC specimen unavailable",
+            "quantity": null,
+            "qualitative": null,
+            "missingReason": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "not-performed",
+              "display": "SYNTHETIC not performed"
+            }
+          },
+          "referenceRanges": [
+
+          ],
+          "interpretation": [
+
+          ],
+          "status": "cancelled",
+          "specimen": {
+            "identifier": {
+              "system": "urn:health-dashboard:synthetic:specimens",
+              "value": "report-sep-tube"
+            },
+            "type": {
+              "system": "urn:health-dashboard:synthetic:analytes",
+              "code": "serum",
+              "display": "SYNTHETIC serum specimen"
+            },
+            "collectionStart": "2026-09-01T08:00:00Z",
+            "collectionEnd": null,
+            "receivedAt": "2026-09-01T08:00:00Z"
+          },
+          "effectiveAt": "2026-09-01T08:00:00Z",
+          "issuedAt": "2026-09-01T08:00:00Z",
+          "method": {
+            "system": "urn:health-dashboard:synthetic:analytes",
+            "code": "method-demo",
+            "display": "SYNTHETIC demo method"
+          },
+          "replacesObservationID": null,
+          "provenance": {
+            "sourceName": "SYNTHETIC Example Laboratory — fictional",
+            "sourceFormat": "app-demo-json-v1",
+            "sourceDocumentID": "report-cancelled",
+            "sourceLocator": "observations/cancelled-glucose",
+            "importedAt": "2026-10-25T12:00:00Z",
+            "transformationVersion": "synthetic-fixture-v1",
+            "synthetic": true
+          },
+          "notes": [
+            "SYNTHETIC test values; no clinical interpretation."
+          ]
+        }
+      ],
+      "provenance": {
+        "sourceName": "SYNTHETIC Example Laboratory — fictional",
+        "sourceFormat": "app-demo-json-v1",
+        "sourceDocumentID": "report-cancelled",
+        "sourceLocator": null,
+        "importedAt": "2026-10-25T12:00:00Z",
+        "transformationVersion": "synthetic-fixture-v1",
+        "synthetic": true
+      }
+    }
+  ]
+}
