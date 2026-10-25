@@ -1,0 +1,35 @@
+# macOS
+.DS_Store
+
+# Xcode user state and generated products
+build/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+*.ipa
+*.dSYM
+*.dSYM.zip
+*.xcarchive
+
+# Swift Package Manager generated state (keep Package.resolved)
+.build/
+.swiftpm/
+
+# Local credentials and signing material
+.env
+.env.*
+!.env.example
+*.p12
+*.p8
+*.mobileprovision
+*.provisionprofile
+*.key
+secrets/
+
+# Never store real health data here; synthetic fixtures belong in Tests/Fixtures
+health-exports/
+private-data/
+export.xml
+export_cda.xml
