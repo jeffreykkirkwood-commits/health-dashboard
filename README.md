@@ -1,72 +1,74 @@
 # Health Dashboard
 
-Personal, iPhone-first SwiftUI and HealthKit prototype. Apple Watch supplies health data through HealthKit; no separate Watch app is planned. The repository now contains a SwiftUI iPhone prototype and an Xcode project. The iOS simulator build and 12 core tests pass with Xcode 27.1. Simulator interaction and real-device validation remain pending.
+A personal, iPhone-first SwiftUI app that reads Apple Health data on-device. Apple Watch is a data source through HealthKit; there is no separate Watch app, backend, analytics, or health upload service.
 
-## Agreed scope
+The original prototype is installed on the user's iPhone, and the user confirmed real Apple Health readings. The **0.2.0 / build 2** redesign is implemented locally and prepared for review, not yet deployed to the iPhone or pushed to GitHub. Expanded permissions and readings still require device verification after approval.
 
-- Sleep, resting heart rate, and heart rate variability, with 7-day and 30-day trends.
-- Show measurement timestamps and missing/stale data explicitly; missing data is not zero.
-- Editable sleep goal, initially 8 hours.
-- Editable REM range, initially 20–25% of total sleep. Below/above flags use the user's non-diagnostic threshold, not a medical target. Watch sleep stages are estimates.
-- Optional local phone notifications after permission, with once-per-night intent, preferred morning time, and mute controls. Local notifications are separate from APNs.
-- Foreground HealthKit sync first. Verify background observers/delivery on a real device later; instant background refresh is not guaranteed. Overnight alerts cannot be fully validated in a same-day setup session.
-- No server or cloud health uploads. Never commit real health records, exports, credentials, or secrets. Future demo/test fixtures must be synthetic.
+## What changed in 0.2.0
 
-## Current prototype status — 2026-10-25
+- Dark Today, Trends, and Health Library tabs, stronger visual hierarchy, colored cards, and a sleep-goal ring. The ring represents completion of the user's hours goal, not a sleep quality or recovery score.
+- Visible sleep duration versus editable goal (initially 8 hours); REM percentage, calculated REM duration, editable target band (initially 20–25%), and below/within/above indicators. The displayed night is dated; fallback to an older night is labeled.
+- Optional resting-heart-rate and HRV personal range indicators. They start disabled; example bounds are not medical recommendations. Chart target lines show enabled personal ranges and the sleep/REM targets.
+- Added steps, active energy, exercise minutes, respiratory rate, and blood oxygen. Activity uses today's cumulative HealthKit statistics; respiration and oxygen use today's sample means. Missing/unreadable values stay blank.
+- Demo/live mode and personal settings persist across launches. Demo fixtures remain fictional.
+- Searchable Health Library with **193 entries: 121 quantity types, 71 category types, and workouts** from the public iOS 27.1 SDK. Availability is filtered by OS version, using Apple's actual identifier constants. Categories include activity, body measurements, heart, hearing exposure, nutrition, sleep, respiratory health, mobility, symptoms, reproductive health, and mindful sessions.
 
-- Latest inspection: macOS **27.0.1 (26A434)**; Xcode **27.1 (27A9275)** is installed, selected, and usable. Earlier missing-Xcode and license messages below are historical. No software installation, agreement acceptance, account sign-in, or security change was performed by this agent.
-- Existing origin: https://github.com/jeffreykkirkwood-commits/health-dashboard.git. Parent verified private repository ownership/access. No push performed in this implementation task.
-- Open `HealthDashboard.xcodeproj` in full Xcode after installation. The shared HealthDashboard scheme targets iPhone / iOS 17+. Set your Personal Team in Signing & Capabilities and use a unique bundle identifier if required. No team ID or signing credentials are committed.
-- Starts in clearly labeled synthetic demo mode. Turn demo off and use Connect Health & sync for read-only HealthKit access. Pull to refresh; foreground activation also refreshes. Data is held in memory; only preferences are saved locally.
-- Sleep is assigned to noon-to-noon windows in the current timezone, clipped at boundaries, with overlapping intervals merged. Per night, staged sources are preferred, then the longest available sleep source. Source selection is shown; it may differ from Apple Health's prioritization. Only asleep values contribute; in-bed and awake do not. REM is unknown when no staged data exists.
-- Heart metrics are arithmetic daily means of readable samples, not clinical baselines. Charts use bars so missing days are not interpolated. Daily details include measurement timestamps. Today's data older than 12 hours is labeled stale; historical measurements remain dated.
-- REM flags use editable personal thresholds. Watch stages are estimates; no diagnosis, emergency detection, or guaranteed overnight monitoring.
-- Notifications implement one generic daily morning review reminder and a separately labeled synthetic five-second test. Mute cancels pending reminders/tests. Reminder content contains no health values. Settings require Save to apply time/enable changes; mute applies immediately. These are **not yet data-triggered once-per-night alerts**.
-- HealthKit capability is declared in the entitlement file and project. Background delivery is deliberately not enabled: verify signed entitlements, observer completion handling, protected-data behavior, and delivery on device before adding it. Exact delivery times cannot be guaranteed.
-- No backend, analytics, paid service, dependency downloads, or cloud health upload code.
+## Apple Health access and coverage
 
-### Validation and next action
+Use **Connect / update Health access** on Today or in Settings to authorize the dashboard's expanded metric set. The Health Library requests read permission for a selected metric only when the user taps Connect in its detail screen. No write permission is requested.
 
-Project/entitlement syntax, scheme XML, source references, JSON fixture integrity, and whitespace checks passed. **All 12 XCTest cases pass** (six sleep/core and six biomarker tests). The entire app **builds successfully for arm64 iOS Simulator** using Xcode 27.1 and the iOS 27.1 simulator SDK, deployment target iOS 17, with code signing disabled. An initial restricted-sandbox attempt failed to communicate with compiler plugins; the authorized local build succeeded outside that sandbox.
+Library details show the newest 100 samples within 30 days, their dates, sources, preferred units, and individual-sample charts. These charts are not daily totals; a step sample may cover only part of a day. Category values use SDK labels when available; unknown values retain their original code. Percent quantities are displayed on the 0–100 scale.
 
-Validation commands:
+**This release does not read every record Apple Health can hold.** Clinical/FHIR records and clinical lab imports require a dedicated capability, permissions, and importer. ECG waveforms, audiograms, vision prescriptions, medications, state of mind, scored assessments, activity-ring summaries, profile characteristics, workout routes, and heartbeat series require specialized readers/screens. These are excluded from the catalog count, and the same limits appear in the app's Data coverage screen. The biomarker demo remains synthetic.
 
-```sh
-CLANG_MODULE_CACHE_PATH=/tmp/health-clang-27 SWIFTPM_MODULECACHE_OVERRIDE=/tmp/health-swift-27 swift test --scratch-path /tmp/health-tests-27 --cache-path /tmp/health-spm-27 --disable-sandbox
-xcodebuild -project HealthDashboard.xcodeproj -scheme HealthDashboard -sdk iphonesimulator -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath /tmp/health-dashboard-derived-27 CODE_SIGNING_ALLOWED=NO ARCHS=arm64 ONLY_ACTIVE_ARCH=YES build
-```
+HealthKit does not reveal whether read access was denied. Empty results may mean no saved data, missing permission, limited allowed history, or no samples in the selected period. The app does not label empty results as proven denial.
 
-No physical-device installation, signed entitlement check, Health permission flow, real measurements, notification-delivery check, or overnight validation has occurred. **Next device step:** open `HealthDashboard.xcodeproj` in Xcode and select your Apple Account Personal Team in Signing & Capabilities; account sign-in, agreements and security/device prompts remain user actions. Coordinate with the parent task one action at a time.
+## Calculation and notification behavior
 
-After Xcode installation, build with `xcodebuild -project HealthDashboard.xcodeproj -scheme HealthDashboard -sdk iphonesimulator -configuration Debug CODE_SIGNING_ALLOWED=NO build`, then test demo UI and denied/missing Health access before real data. Verify notification mute/rescheduling and locked-device behavior on the iPhone. Overnight behavior needs an overnight test.
+- Sleep is grouped into local noon-to-noon windows. Overlapping intervals are merged, and one source is selected per night, preferring staged data. This may differ from Apple Health's prioritization. In-bed and awake time do not count as asleep.
+- REM share is REM time divided by total asleep time. Missing stage data remains unknown; it is not zero. Displayed REM duration is derived from total sleep and that share. Watch sleep stages are estimates.
+- Resting heart rate and HRV are daily arithmetic sample means, not clinical baselines. User-defined indicators are comparisons with personal targets, not diagnoses or validated recovery scores.
+- Notifications remain one generic daily morning review reminder and a synthetic five-second test. Mute cancels pending reminders/tests. Reminder content contains no health values. Changing schedule/enabling requires Save; mute applies immediately.
+- Threshold indicators are visual only. Data-triggered overnight alerts and background HealthKit delivery are not implemented. Exact-time monitoring is not promised.
 
-## Historical setup inspection — 2026-10-25
+## Repository map
 
-- Apple silicon (arm64); macOS 15.1.1, build 24B91.
-- Active developer directory: /Library/Developer/CommandLineTools. Full Xcode was not found in /Applications, the user's Applications folder, or Spotlight's Xcode bundle search. xcodebuild cannot run with this command-line-tools-only setup.
-- Approximately 152 GiB available on the system volume at inspection; space must be rechecked before downloading Xcode and simulator runtimes.
-- Apple's compatibility table lists Xcode 16.2 for macOS Sonoma 14.5 through Sequoia 15.x, with the iOS 18.2 SDK. Xcode 16.3 needs macOS 15.2; Xcode 16.4 needs macOS 15.3; Xcode 26 through 26.3 need macOS 15.6 or later within their listed ranges. Therefore Xcode 16.2 is the newest listed release compatible with the installed macOS 15.1.1. Device compatibility still needs verification against the actual iPhone/iOS version.
-- Git 2.39.5 is available and an existing author identity is configured. GitHub CLI was not found on PATH or at the standard Homebrew locations. GitHub Desktop is installed; authenticated GitHub ownership has not been verified.
-- No software installs/updates, agreements, account sign-ins, device pairing, or security changes performed.
+| Path | Responsibility |
+| --- | --- |
+| `HealthDashboard/App.swift` | Dashboard, trends, target controls, and settings |
+| `HealthDashboard/HealthStore.swift` | Dashboard permissions, foreground reads, daily summaries |
+| `HealthDashboard/HealthCore.swift` | Sleep aggregation, daily models, synthetic dashboard data |
+| `HealthDashboard/HealthCatalog.swift` | OS-aware public quantity/category/workout inventory |
+| `HealthDashboard/HealthLibrary.swift` | Search, per-metric permissions, records, sample charts, coverage |
+| `HealthDashboard/Notifications.swift` | Local reminders and mute |
+| `HealthDashboard/Biomarkers.swift` | App-owned synthetic lab interchange and validation |
+| `HealthDashboard/BiomarkerDemoView.swift` | Fictional lab-results demonstration |
+| `Tests/HealthCoreTests/` | Calculation and biomarker tests |
+| `docs/BIOMARKER_IMPORT.md` | Lab import contract and limitations |
 
-## Cost and next step
+## Build and validation
 
-The planned route is free direct device testing with an Xcode Personal Team and HealthKit; no paid membership or TestFlight is planned. Personal Team provisioning expires after seven days and requires rebuild/reinstall. Signing and HealthKit capability must still be verified during device setup.
+Full Xcode 27.1 is installed. Open `HealthDashboard.xcodeproj`, choose the HealthDashboard scheme and iPhone, and select the user's Personal Team for signing. The target supports iOS 17+; newer catalog types are gated by availability. No signing credentials or real health data belong in Git.
 
-The user reports iOS 27.0.1. See the current-status section for the next action. Installation today is not yet promised.
+For core tests: `swift test`. For an unsigned compile: `xcodebuild -project HealthDashboard.xcodeproj -scheme HealthDashboard -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO build`.
 
-The existing private GitHub repository is configured as origin; pushing remains pending explicit authorization. A local folder/repo does not automatically register a Codex sidebar project; add this folder through the app's project UI if desired.
+Validation of the redesign: all 12 existing automated calculation/biomarker tests pass; iPhone and simulator builds succeeded; a signed iPhone build was prepared; the synthetic Today screen was visually inspected in a simulator. Plist syntax and Git whitespace checks pass. New live Health categories, full interaction/accessibility checks, and the updated iPhone installation are pending. Existing tests do not cover the new HealthKit integration or all UI behavior.
 
-## Official references
+Device acceptance after approval: update Health permissions; check actual data/missing-data behavior for added dashboard metrics; connect representative quantity/category/workout records from the library; edit sleep and REM bounds and verify indicators/chart lines; enable and set personal vital ranges; exercise 7/30-day switching, app relaunch, refresh, notification mute/rescheduling, and larger text. No real records should be exported for testing.
 
-- [Xcode system requirements](https://developer.apple.com/xcode/system-requirements)
-- [Supported iOS capabilities](https://developer.apple.com/help/account/reference/supported-capabilities-ios/)
-- [Developer account / Personal Team limits](https://developer.apple.com/help/account/basics/about-your-developer-account/)
+## Design research
 
-## Synthetic biomarkers extension
+- [WHOOP app navigation and dashboard](https://support.whoop.com/s/article/Navigating-the-WHOOP-Mobile-App?language=en_US): prominent primary metrics and deeper metric exploration.
+- [Oura Today, Vitals, and My Health](https://support.ouraring.com/hc/en-us/articles/42987005571859-How-to-Use-the-Oura-App): daily focus separated from deeper trends.
+- [Garmin focus and glance cards](https://support.garmin.com/en-AU/?faq=35qboQSvKC2WpKkTaDaRP7): layered cards and personal focus controls.
 
-In synthetic demo mode, choose **Explore synthetic biomarkers**. This isolated screen reads a bundled app-owned JSON fixture; no Labcorp account, provider API, real file import, or clinical HealthKit integration is enabled. Seven familiar biomarkers span three fictional draws, with source ranges/flags, missing results, a qualitative screen, comparator values, incompatible units, cancellation and amendment history. Original report versions are preserved. No medical recommendations or inferred flags are generated.
+This app uses its own layout and native shapes, without copied brand artwork or proprietary scoring algorithms.
 
-See [biomarker import research and contract](docs/BIOMARKER_IMPORT.md) and [synthetic JSON](HealthDashboard/Fixtures/biomarkers.synthetic.v1.json). The Swift domain model retains coded analytes, raw units and decimal text, qualitative/text/missing values, specimen/timestamps, provenance, source ranges, statuses, notes and revisions. It supports idempotent repeated demo imports and conservative trend selection. Six additional XCTest cases pass alongside the original six. The full simulator build passes; interactive UI and physical-device checks remain pending.
+## Apple references
 
-Latest setup: Xcode 27.1 is present, selected and usable. Earlier license/missing-toolchain messages were superseded by successful tests and an unsigned simulator build; this agent did not install software or accept agreements.
+- [Per-type authorization and read privacy](https://developer.apple.com/documentation/healthkit/authorizing-access-to-health-data)
+- [Quantity aggregation](https://developer.apple.com/documentation/healthkit/hkquantityaggregationstyle)
+- [Preferred units](https://developer.apple.com/documentation/healthkit/hkhealthstore/preferredunits(for:completion:))
+- [Clinical records](https://developer.apple.com/documentation/healthkit/accessing-health-records)
+- [Xcode requirements](https://developer.apple.com/xcode/system-requirements)
+- [Account and signing limits](https://developer.apple.com/help/account/basics/about-your-developer-account/)

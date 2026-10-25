@@ -7,7 +7,14 @@ import SwiftUI
     @Published var lastSync: Date?
     @Published var busy = false
     @Published var message: String?
-    @Published var demo = true
+    @Published var demo = UserDefaults.standard.object(forKey: "demoMode") == nil ? true : UserDefaults.standard.bool(forKey: "demoMode")
+    @Published var extraValues: [String: Double] = [:]
+    @Published var extraSync: Date?
+    private let extras: [(HKQuantityTypeIdentifier, HKUnit, Bool)] = [
+        (.stepCount, .count(), true), (.activeEnergyBurned, .kilocalorie(), true),
+        (.appleExerciseTime, .minute(), true), (.respiratoryRate, HKUnit.count().unitDivided(by: .minute()), false),
+        (.oxygenSaturation, .percent(), false)
+    ]
     private let health = HKHealthStore()
     private var generation = 0
     private let sleep = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
@@ -16,18 +23,23 @@ import SwiftUI
 
     func setDemo(_ enabled: Bool) {
         generation += 1; busy = false; demo = enabled; lastSync = nil; message = nil
+        UserDefaults.standard.set(enabled, forKey: "demoMode")
         rows = enabled ? HealthMath.demo() : []
+        extraValues = enabled ? ["HKQuantityTypeIdentifierStepCount": 6840, "HKQuantityTypeIdentifierActiveEnergyBurned": 412,
+                                 "HKQuantityTypeIdentifierAppleExerciseTime": 38, "HKQuantityTypeIdentifierRespiratoryRate": 14.2,
+                                 "HKQuantityTypeIdentifierOxygenSaturation": 0.98] : [:]
+        extraSync = nil
     }
     func connect() async {
         guard HKHealthStore.isHealthDataAvailable() else { message = "HealthKit is unavailable on this device. Try synthetic demo mode."; return }
         do {
-            try await health.requestAuthorization(toShare: [], read: Set<HKObjectType>([sleep, rhr, hrv]))
+            try await health.requestAuthorization(toShare: [], read: Set<HKObjectType>([sleep, rhr, hrv] + extras.compactMap { HKObjectType.quantityType(forIdentifier: $0.0) }))
             await refresh()
         } catch { message = "Health access request failed. You can review access in the Health app and retry." }
     }
     func refresh() async {
         guard !busy else { return }
-        if demo { rows = HealthMath.demo(); return }
+        if demo { setDemo(true); return }
         busy = true; message = nil
         let token = generation
         defer { if token == generation { busy = false } }
@@ -52,11 +64,33 @@ import SwiftUI
                     hrv: mean(variability, unit: .secondUnit(with: .milli)),
                     measuredAt: ([s.timestamp].compactMap { $0 } + heart.map(\.endDate) + variability.map(\.endDate)).max(), sleepSource: s.source)
             }
+            var updatedExtras: [String: Double] = [:]
+            for (identifier, unit, cumulative) in extras {
+                if let type = HKObjectType.quantityType(forIdentifier: identifier),
+                   let value = try? await todayStatistic(type, unit: unit, cumulative: cumulative) {
+                    updatedExtras[identifier.rawValue] = value
+                }
+            }
+            guard generation == token, !demo else { return }
+            extraValues = updatedExtras; extraSync = Date()
             lastSync = Date()
             if rows.allSatisfy({ $0.measuredAt == nil }) { message = "No readable samples. Data may be missing or Health access may be off. HealthKit does not reveal whether read permission was denied." }
         } catch {
             guard generation == token else { return }
-            rows = []; message = "Sync failed. Unlock your iPhone, review Health access, and retry."
+            rows = []; extraValues = [:]; extraSync = nil; lastSync = nil; message = "Sync failed. Unlock your iPhone, review Health access, and retry."
+        }
+    }
+    private func todayStatistic(_ type: HKQuantityType, unit: HKUnit, cumulative: Bool) async throws -> Double? {
+        try await withCheckedThrowingContinuation { continuation in
+            let start = Calendar.current.startOfDay(for: Date())
+            let predicate = HKQuery.predicateForSamples(withStart: start, end: Date(), options: .strictStartDate)
+            let query = HKStatisticsQuery(quantityType: type, quantitySamplePredicate: predicate,
+                                          options: cumulative ? .cumulativeSum : .discreteAverage) { _, result, error in
+                if let error { continuation.resume(throwing: error); return }
+                let quantity = cumulative ? result?.sumQuantity() : result?.averageQuantity()
+                continuation.resume(returning: quantity?.doubleValue(for: unit))
+            }
+            health.execute(query)
         }
     }
     private func samples(_ type: HKSampleType, from: Date) async throws -> [HKSample] {

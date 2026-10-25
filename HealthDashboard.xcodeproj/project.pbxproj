@@ -1,33 +1,265 @@
 // !$*UTF8*$!
-{ archiveVersion = 1; classes = {}; objectVersion = 56; objects = {
-000000000000000000000068 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Biomarkers.swift; sourceTree = "<group>"; };
-000000000000000000000069 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiomarkerDemoView.swift; sourceTree = "<group>"; };
-00000000000000000000006A = { isa = PBXFileReference; lastKnownFileType = text.json; path = Fixtures/biomarkers.synthetic.v1.json; sourceTree = "<group>"; };
-0000000000000000000000CC = { isa = PBXBuildFile; fileRef = 000000000000000000000068; };
-0000000000000000000000CD = { isa = PBXBuildFile; fileRef = 000000000000000000000069; };
-0000000000000000000000CE = { isa = PBXBuildFile; fileRef = 00000000000000000000006A; };
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
 
-000000000000000000000064 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
-0000000000000000000000C8 = { isa = PBXBuildFile; fileRef = 000000000000000000000064; };
-000000000000000000000065 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCore.swift; sourceTree = "<group>"; };
-0000000000000000000000C9 = { isa = PBXBuildFile; fileRef = 000000000000000000000065; };
-000000000000000000000066 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
-0000000000000000000000CA = { isa = PBXBuildFile; fileRef = 000000000000000000000066; };
-000000000000000000000067 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
-0000000000000000000000CB = { isa = PBXBuildFile; fileRef = 000000000000000000000067; };
-000000000000000000000002 = { isa = PBXFileReference; explicitFileType = wrapper.application; path = HealthDashboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
-000000000000000000000003 = { isa = PBXGroup; children = (000000000000000000000004, 000000000000000000000005,); sourceTree = "<group>"; };
-000000000000000000000004 = { isa = PBXGroup; children = (000000000000000000000064, 000000000000000000000065, 000000000000000000000066, 000000000000000000000067, 000000000000000000000068, 000000000000000000000069, 00000000000000000000006A,); path = HealthDashboard; sourceTree = "<group>"; };
-000000000000000000000005 = { isa = PBXGroup; children = (000000000000000000000002,); name = Products; sourceTree = "<group>"; };
-000000000000000000000006 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (0000000000000000000000C8, 0000000000000000000000C9, 0000000000000000000000CA, 0000000000000000000000CB, 0000000000000000000000CC, 0000000000000000000000CD,); runOnlyForDeploymentPostprocessing = 0; };
-000000000000000000000007 = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-000000000000000000000008 = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (0000000000000000000000CE,); runOnlyForDeploymentPostprocessing = 0; };
-000000000000000000000009 = { isa = PBXNativeTarget; buildConfigurationList = 00000000000000000000000A; buildPhases = (000000000000000000000006, 000000000000000000000007, 000000000000000000000008,); buildRules = (); dependencies = (); name = HealthDashboard; productName = HealthDashboard; productReference = 000000000000000000000002; productType = "com.apple.product-type.application"; };
-000000000000000000000001 = { isa = PBXProject; attributes = { LastUpgradeCheck = 1600; TargetAttributes = { 000000000000000000000009 = { CreatedOnToolsVersion = 16.0; SystemCapabilities = { com.apple.HealthKit = { enabled = 1; }; }; }; }; }; buildConfigurationList = 00000000000000000000000B; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base,); mainGroup = 000000000000000000000003; productRefGroup = 000000000000000000000005; projectDirPath = ""; projectRoot = ""; targets = (000000000000000000000009,); };
-00000000000000000000000A = { isa = XCConfigurationList; buildConfigurations = (00000000000000000000000C, 00000000000000000000000D,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-00000000000000000000000B = { isa = XCConfigurationList; buildConfigurations = (00000000000000000000000E, 00000000000000000000000F,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-00000000000000000000000C = { isa = XCBuildConfiguration; buildSettings = { CLANG_ENABLE_MODULES = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0;CODE_SIGN_ENTITLEMENTS = HealthDashboard/HealthDashboard.entitlements; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_NSHealthShareUsageDescription = "Read sleep, resting heart rate, and heart rate variability to display your personal on-device dashboard."; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_CFBundleDisplayName = "Health Dashboard"; MARKETING_VERSION = 0.1.0; PRODUCT_BUNDLE_IDENTIFIER = "com.jeffreykirkwood.healthdashboard"; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; TARGETED_DEVICE_FAMILY = 1;SWIFT_OPTIMIZATION_LEVEL = "-Onone"; DEBUG_INFORMATION_FORMAT = dwarf; SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG; }; name = Debug; };
-00000000000000000000000D = { isa = XCBuildConfiguration; buildSettings = { CLANG_ENABLE_MODULES = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0;CODE_SIGN_ENTITLEMENTS = HealthDashboard/HealthDashboard.entitlements; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_NSHealthShareUsageDescription = "Read sleep, resting heart rate, and heart rate variability to display your personal on-device dashboard."; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_CFBundleDisplayName = "Health Dashboard"; MARKETING_VERSION = 0.1.0; PRODUCT_BUNDLE_IDENTIFIER = "com.jeffreykirkwood.healthdashboard"; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; TARGETED_DEVICE_FAMILY = 1;SWIFT_OPTIMIZATION_LEVEL = "-O"; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; }; name = Release; };
-00000000000000000000000E = { isa = XCBuildConfiguration; buildSettings = { CLANG_ENABLE_MODULES = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0;SWIFT_OPTIMIZATION_LEVEL = "-Onone"; DEBUG_INFORMATION_FORMAT = dwarf; SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG; }; name = Debug; };
-00000000000000000000000F = { isa = XCBuildConfiguration; buildSettings = { CLANG_ENABLE_MODULES = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0;SWIFT_OPTIMIZATION_LEVEL = "-O"; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; }; name = Release; };
-}; rootObject = 000000000000000000000001; }
+/* Begin PBXBuildFile section */
+		0000000000000000000000C8 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000064 /* App.swift */; };
+		0000000000000000000000C9 /* HealthCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000065 /* HealthCore.swift */; };
+		0000000000000000000000CA /* HealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000066 /* HealthStore.swift */; };
+		0000000000000000000000CB /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000067 /* Notifications.swift */; };
+		0000000000000000000000CC /* Biomarkers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000068 /* Biomarkers.swift */; };
+		0000000000000000000000CD /* BiomarkerDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000069 /* BiomarkerDemoView.swift */; };
+		0000000000000000000000CE /* Fixtures/biomarkers.synthetic.v1.json in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000000006A /* Fixtures/biomarkers.synthetic.v1.json */; };
+		0000000000000000000000E0 /* HealthCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000070; };
+		0000000000000000000000E1 /* HealthLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000071; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		000000000000000000000002 /* HealthDashboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = HealthDashboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000000000064 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		000000000000000000000065 /* HealthCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCore.swift; sourceTree = "<group>"; };
+		000000000000000000000066 /* HealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
+		000000000000000000000067 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		000000000000000000000068 /* Biomarkers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Biomarkers.swift; sourceTree = "<group>"; };
+		000000000000000000000069 /* BiomarkerDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiomarkerDemoView.swift; sourceTree = "<group>"; };
+		00000000000000000000006A /* Fixtures/biomarkers.synthetic.v1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Fixtures/biomarkers.synthetic.v1.json; sourceTree = "<group>"; };
+		000000000000000000000070 /* HealthCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCatalog.swift; sourceTree = "<group>"; };
+		000000000000000000000071 /* HealthLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthLibrary.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		000000000000000000000007 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		000000000000000000000003 = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000004 /* HealthDashboard */,
+				000000000000000000000005 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		000000000000000000000004 /* HealthDashboard */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000064 /* App.swift */,
+				000000000000000000000071 /* HealthLibrary.swift */,
+				000000000000000000000070 /* HealthCatalog.swift */,
+				000000000000000000000065 /* HealthCore.swift */,
+				000000000000000000000066 /* HealthStore.swift */,
+				000000000000000000000067 /* Notifications.swift */,
+				000000000000000000000068 /* Biomarkers.swift */,
+				000000000000000000000069 /* BiomarkerDemoView.swift */,
+				00000000000000000000006A /* Fixtures/biomarkers.synthetic.v1.json */,
+			);
+			path = HealthDashboard;
+			sourceTree = "<group>";
+		};
+		000000000000000000000005 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000002 /* HealthDashboard.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		000000000000000000000009 /* HealthDashboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00000000000000000000000A /* Build configuration list for PBXNativeTarget "HealthDashboard" */;
+			buildPhases = (
+				000000000000000000000006 /* Sources */,
+				000000000000000000000007 /* Frameworks */,
+				000000000000000000000008 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HealthDashboard;
+			productName = HealthDashboard;
+			productReference = 000000000000000000000002 /* HealthDashboard.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		000000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					000000000000000000000009 = {
+						CreatedOnToolsVersion = 16.0;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = 00000000000000000000000B /* Build configuration list for PBXProject "HealthDashboard" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 000000000000000000000003;
+			productRefGroup = 000000000000000000000005 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				000000000000000000000009 /* HealthDashboard */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		000000000000000000000008 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0000000000000000000000CE /* Fixtures/biomarkers.synthetic.v1.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		000000000000000000000006 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0000000000000000000000C8 /* App.swift in Sources */,
+				0000000000000000000000E1 /* HealthLibrary.swift in Sources */,
+				0000000000000000000000E0 /* HealthCatalog.swift in Sources */,
+				0000000000000000000000C9 /* HealthCore.swift in Sources */,
+				0000000000000000000000CA /* HealthStore.swift in Sources */,
+				0000000000000000000000CB /* Notifications.swift in Sources */,
+				0000000000000000000000CC /* Biomarkers.swift in Sources */,
+				0000000000000000000000CD /* BiomarkerDemoView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		00000000000000000000000C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = HealthDashboard/HealthDashboard.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 2FBRL6ZM7J;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Health Dashboard";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Read the health categories you choose to display your personal on-device dashboard, trends, targets, and health library.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeffreykirkwood.healthdashboard;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		00000000000000000000000D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = HealthDashboard/HealthDashboard.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 2FBRL6ZM7J;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Health Dashboard";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Read the health categories you choose to display your personal on-device dashboard, trends, targets, and health library.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeffreykirkwood.healthdashboard;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		00000000000000000000000E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		00000000000000000000000F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00000000000000000000000A /* Build configuration list for PBXNativeTarget "HealthDashboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00000000000000000000000C /* Debug */,
+				00000000000000000000000D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00000000000000000000000B /* Build configuration list for PBXProject "HealthDashboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00000000000000000000000E /* Debug */,
+				00000000000000000000000F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 000000000000000000000001 /* Project object */;
+}
