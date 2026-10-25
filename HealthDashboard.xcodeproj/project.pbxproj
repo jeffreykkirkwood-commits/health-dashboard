@@ -1,5 +1,12 @@
 // !$*UTF8*$!
 { archiveVersion = 1; classes = {}; objectVersion = 56; objects = {
+000000000000000000000068 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Biomarkers.swift; sourceTree = "<group>"; };
+000000000000000000000069 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiomarkerDemoView.swift; sourceTree = "<group>"; };
+00000000000000000000006A = { isa = PBXFileReference; lastKnownFileType = text.json; path = Fixtures/biomarkers.synthetic.v1.json; sourceTree = "<group>"; };
+0000000000000000000000CC = { isa = PBXBuildFile; fileRef = 000000000000000000000068; };
+0000000000000000000000CD = { isa = PBXBuildFile; fileRef = 000000000000000000000069; };
+0000000000000000000000CE = { isa = PBXBuildFile; fileRef = 00000000000000000000006A; };
+
 000000000000000000000064 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 0000000000000000000000C8 = { isa = PBXBuildFile; fileRef = 000000000000000000000064; };
 000000000000000000000065 = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCore.swift; sourceTree = "<group>"; };
@@ -10,11 +17,11 @@
 0000000000000000000000CB = { isa = PBXBuildFile; fileRef = 000000000000000000000067; };
 000000000000000000000002 = { isa = PBXFileReference; explicitFileType = wrapper.application; path = HealthDashboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 000000000000000000000003 = { isa = PBXGroup; children = (000000000000000000000004, 000000000000000000000005,); sourceTree = "<group>"; };
-000000000000000000000004 = { isa = PBXGroup; children = (000000000000000000000064, 000000000000000000000065, 000000000000000000000066, 000000000000000000000067,); path = HealthDashboard; sourceTree = "<group>"; };
+000000000000000000000004 = { isa = PBXGroup; children = (000000000000000000000064, 000000000000000000000065, 000000000000000000000066, 000000000000000000000067, 000000000000000000000068, 000000000000000000000069, 00000000000000000000006A,); path = HealthDashboard; sourceTree = "<group>"; };
 000000000000000000000005 = { isa = PBXGroup; children = (000000000000000000000002,); name = Products; sourceTree = "<group>"; };
-000000000000000000000006 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (0000000000000000000000C8, 0000000000000000000000C9, 0000000000000000000000CA, 0000000000000000000000CB,); runOnlyForDeploymentPostprocessing = 0; };
+000000000000000000000006 = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (0000000000000000000000C8, 0000000000000000000000C9, 0000000000000000000000CA, 0000000000000000000000CB, 0000000000000000000000CC, 0000000000000000000000CD,); runOnlyForDeploymentPostprocessing = 0; };
 000000000000000000000007 = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-000000000000000000000008 = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+000000000000000000000008 = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (0000000000000000000000CE,); runOnlyForDeploymentPostprocessing = 0; };
 000000000000000000000009 = { isa = PBXNativeTarget; buildConfigurationList = 00000000000000000000000A; buildPhases = (000000000000000000000006, 000000000000000000000007, 000000000000000000000008,); buildRules = (); dependencies = (); name = HealthDashboard; productName = HealthDashboard; productReference = 000000000000000000000002; productType = "com.apple.product-type.application"; };
 000000000000000000000001 = { isa = PBXProject; attributes = { LastUpgradeCheck = 1600; TargetAttributes = { 000000000000000000000009 = { CreatedOnToolsVersion = 16.0; SystemCapabilities = { com.apple.HealthKit = { enabled = 1; }; }; }; }; }; buildConfigurationList = 00000000000000000000000B; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base,); mainGroup = 000000000000000000000003; productRefGroup = 000000000000000000000005; projectDirPath = ""; projectRoot = ""; targets = (000000000000000000000009,); };
 00000000000000000000000A = { isa = XCConfigurationList; buildConfigurations = (00000000000000000000000C, 00000000000000000000000D,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };

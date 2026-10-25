@@ -1,6 +1,6 @@
 # Health Dashboard
 
-Personal, iPhone-first SwiftUI and HealthKit prototype. Apple Watch supplies health data through HealthKit; no separate Watch app is planned. The repository now contains a SwiftUI iPhone prototype and an Xcode project. iOS compilation and real-device validation are pending full Xcode installation.
+Personal, iPhone-first SwiftUI and HealthKit prototype. Apple Watch supplies health data through HealthKit; no separate Watch app is planned. The repository now contains a SwiftUI iPhone prototype and an Xcode project. The iOS simulator build and 12 core tests pass with Xcode 27.1. Simulator interaction and real-device validation remain pending.
 
 ## Agreed scope
 
@@ -14,7 +14,7 @@ Personal, iPhone-first SwiftUI and HealthKit prototype. Apple Watch supplies hea
 
 ## Current prototype status — 2026-10-25
 
-- Re-inspection: macOS **27.0.1 (26A434)**, approximately **169 GiB free**. Full Xcode is still absent; command-line tools are selected. Earlier macOS findings below are historical.
+- Latest inspection: macOS **27.0.1 (26A434)**; Xcode **27.1 (27A9275)** is installed, selected, and usable. Earlier missing-Xcode and license messages below are historical. No software installation, agreement acceptance, account sign-in, or security change was performed by this agent.
 - Existing origin: https://github.com/jeffreykkirkwood-commits/health-dashboard.git. Parent verified private repository ownership/access. No push performed in this implementation task.
 - Open `HealthDashboard.xcodeproj` in full Xcode after installation. The shared HealthDashboard scheme targets iPhone / iOS 17+. Set your Personal Team in Signing & Capabilities and use a unique bundle identifier if required. No team ID or signing credentials are committed.
 - Starts in clearly labeled synthetic demo mode. Turn demo off and use Connect Health & sync for read-only HealthKit access. Pull to refresh; foreground activation also refreshes. Data is held in memory; only preferences are saved locally.
@@ -27,9 +27,16 @@ Personal, iPhone-first SwiftUI and HealthKit prototype. Apple Watch supplies hea
 
 ### Validation and next action
 
-Project/entitlement plist syntax, shared-scheme XML, source-file references, and git whitespace checks passed. Swift test execution was attempted but blocked before tests ran: the installed command-line toolchain reports a compiler/SDK version mismatch, duplicate SwiftBridging modules, and a PackageDescription manifest linker failure even with writable caches. A direct core compilation attempt was also blocked by the same toolchain. No executable tests passed yet. Six core XCTest cases cover interval overlap, missing data, REM thresholds, source selection, unstaged sleep, noon clipping, and synthetic gaps. Run `swift test` after installing a matching toolchain. iOS UI/HealthKit/notification type-checking, simulator launch, signing, and real-device tests remain pending full Xcode; no device validation is claimed.
+Project/entitlement syntax, scheme XML, source references, JSON fixture integrity, and whitespace checks passed. **All 12 XCTest cases pass** (six sleep/core and six biomarker tests). The entire app **builds successfully for arm64 iOS Simulator** using Xcode 27.1 and the iOS 27.1 simulator SDK, deployment target iOS 17, with code signing disabled. An initial restricted-sandbox attempt failed to communicate with compiler plugins; the authorized local build succeeded outside that sandbox.
 
-**Next single user action:** approve/install the free official Xcode app. Current macOS meets the documented Xcode 27 requirement. Apple sign-in, agreements, device pairing, Developer Mode, and Health/notification permission prompts remain user steps. The phone OS version alone does not prove an older Xcode cannot pair; SDK and device-support columns differ.
+Validation commands:
+
+```sh
+CLANG_MODULE_CACHE_PATH=/tmp/health-clang-27 SWIFTPM_MODULECACHE_OVERRIDE=/tmp/health-swift-27 swift test --scratch-path /tmp/health-tests-27 --cache-path /tmp/health-spm-27 --disable-sandbox
+xcodebuild -project HealthDashboard.xcodeproj -scheme HealthDashboard -sdk iphonesimulator -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath /tmp/health-dashboard-derived-27 CODE_SIGNING_ALLOWED=NO ARCHS=arm64 ONLY_ACTIVE_ARCH=YES build
+```
+
+No physical-device installation, signed entitlement check, Health permission flow, real measurements, notification-delivery check, or overnight validation has occurred. **Next device step:** open `HealthDashboard.xcodeproj` in Xcode and select your Apple Account Personal Team in Signing & Capabilities; account sign-in, agreements and security/device prompts remain user actions. Coordinate with the parent task one action at a time.
 
 After Xcode installation, build with `xcodebuild -project HealthDashboard.xcodeproj -scheme HealthDashboard -sdk iphonesimulator -configuration Debug CODE_SIGNING_ALLOWED=NO build`, then test demo UI and denied/missing Health access before real data. Verify notification mute/rescheduling and locked-device behavior on the iPhone. Overnight behavior needs an overnight test.
 
@@ -55,3 +62,11 @@ The existing private GitHub repository is configured as origin; pushing remains 
 - [Xcode system requirements](https://developer.apple.com/xcode/system-requirements)
 - [Supported iOS capabilities](https://developer.apple.com/help/account/reference/supported-capabilities-ios/)
 - [Developer account / Personal Team limits](https://developer.apple.com/help/account/basics/about-your-developer-account/)
+
+## Synthetic biomarkers extension
+
+In synthetic demo mode, choose **Explore synthetic biomarkers**. This isolated screen reads a bundled app-owned JSON fixture; no Labcorp account, provider API, real file import, or clinical HealthKit integration is enabled. Seven familiar biomarkers span three fictional draws, with source ranges/flags, missing results, a qualitative screen, comparator values, incompatible units, cancellation and amendment history. Original report versions are preserved. No medical recommendations or inferred flags are generated.
+
+See [biomarker import research and contract](docs/BIOMARKER_IMPORT.md) and [synthetic JSON](HealthDashboard/Fixtures/biomarkers.synthetic.v1.json). The Swift domain model retains coded analytes, raw units and decimal text, qualitative/text/missing values, specimen/timestamps, provenance, source ranges, statuses, notes and revisions. It supports idempotent repeated demo imports and conservative trend selection. Six additional XCTest cases pass alongside the original six. The full simulator build passes; interactive UI and physical-device checks remain pending.
+
+Latest setup: Xcode 27.1 is present, selected and usable. Earlier license/missing-toolchain messages were superseded by successful tests and an unsigned simulator build; this agent did not install software or accept agreements.

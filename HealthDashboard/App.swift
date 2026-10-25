@@ -32,6 +32,7 @@ struct DashboardView: View {
                     Text("A personal view of rest and recovery. Watch sleep stages are estimates.")
                         .foregroundStyle(.secondary)
                     Toggle("Use synthetic demo data", isOn: Binding(get: { store.demo }, set: { store.setDemo($0) }))
+                    if store.demo { NavigationLink("Explore synthetic biomarkers") { BiomarkerDemoView() } }
                     if !store.demo {
                         Button("Connect Health & sync") { Task { await store.connect() } }.buttonStyle(.borderedProminent).disabled(store.busy)
                     }
