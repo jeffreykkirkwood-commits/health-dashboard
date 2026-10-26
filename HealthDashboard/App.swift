@@ -1,10 +1,19 @@
+// PURPOSE: Build the screens you see: Today, Trends, Health Library and Settings. This file displays readings; HealthStore.swift obtains them.
+// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
+
 import SwiftUI
 import Charts
 
+// FEATURE 01 — Launch the app
+// Opening the app creates the dashboard in a dark color scheme. There is no
+// server connection or Health permission request in this entry point.
 @main struct HealthDashboardApp: App {
     var body: some Scene { WindowGroup { DashboardView().preferredColorScheme(.dark) } }
 }
 
+// FEATURE 02 — Keep the screens visually consistent
+// These named colors are shared by cards, charts and labels. They communicate
+// UI emphasis; a color by itself is not a medical judgment.
 enum Palette {
     static let background = Color(red: 0.035, green: 0.055, blue: 0.075)
     static let card = Color(red: 0.075, green: 0.105, blue: 0.13)
@@ -13,6 +22,9 @@ enum Palette {
     static let coral = Color(red: 1, green: 0.62, blue: 0.48)
     static let blue = Color(red: 0.43, green: 0.77, blue: 1)
 }
+// FEATURE 03 — Give cards a shared appearance
+// panel() adds the same padding, rounded background and border to different
+// screens. It changes appearance only, never the values shown.
 extension View {
     func panel() -> some View {
         padding(20).background(Palette.card, in: RoundedRectangle(cornerRadius: 24))
@@ -20,6 +32,11 @@ extension View {
     }
 }
 
+// FEATURE 04 — Keep readings and personal choices together
+// DashboardStore holds the readings used by the screen; ReminderManager handles
+// iPhone reminders. @StateObject keeps each helper alive as the screen redraws.
+// @AppStorage saves the following preferences on this device between launches;
+// changing a goal does not edit any record in Apple Health.
 struct DashboardView: View {
     @StateObject private var store = DashboardStore()
     @StateObject private var reminders = ReminderManager()
@@ -40,11 +57,19 @@ struct DashboardView: View {
     @AppStorage("morningMinute") private var minute = 0
     @State private var range = 7
     @State private var settings = false
+    // FEATURE 05 — Choose the days shown
+    // visible selects the last 7 or 30 rows for Trends. today is the newest daily
+    // row; night is the newest row with sleep, which may be older. nightIsToday
+    // lets the sleep card label that fallback instead of presenting it as last night.
     private var visible: [DailyHealth] { Array(store.rows.suffix(range)) }
     private var today: DailyHealth? { store.rows.last }
     private var night: DailyHealth? { store.rows.last(where: { $0.sleepHours != nil }) }
     private var nightIsToday: Bool { night.map { Calendar.current.isDateInToday($0.date) } ?? false }
 
+    // FEATURE 06 — Navigate Today, Trends and the library
+    // Today assembles the cards below from the store. Pull-to-refresh asks the store
+    // to read again. Trends uses the same rows, while Health Library opens its own
+    // per-metric reader. Screen buttons call helpers; they do not upload health data.
     var body: some View {
         TabView {
             NavigationStack {
@@ -88,6 +113,10 @@ struct DashboardView: View {
                     .toolbar { settingsButton }
                     .navigationBarTitleDisplayMode(.inline)
             }.tabItem { Label("Today", systemImage: "circle.grid.2x2.fill") }
+            // FEATURE 07 — Explore a longer period
+            // Changing 7/30 days selects already loaded rows; it does not request extra
+            // permissions. The daily record shows source and timestamp so readers can see
+            // where a measurement came from. Missing readings stay absent, not zero.
             NavigationStack {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
@@ -117,13 +146,23 @@ struct DashboardView: View {
         }
         .tint(Palette.mint)
         .sheet(isPresented: $settings) { settingsView }
+        // FEATURE 08 — Refresh when the app is visible
+        // The opening task restores demo/live mode. Returning to the foreground asks
+        // for another refresh. Foreground means the app is active on screen; this does
+        // not run a continuous background health monitor.
         .task { store.setDemo(store.demo); if !store.demo { await store.refresh() } }
         .onChange(of: phase) { _, new in if new == .active { Task { await store.refresh() } } }
     }
+    // FEATURE 09 — Open the controls
+    // This button opens Settings & targets. Its accessibility label gives a spoken
+    // name to the icon for people using VoiceOver.
     private var settingsButton: some View {
         Button { settings = true } label: { Image(systemName: "slider.horizontal.3").foregroundStyle(.white).padding(6) }
             .accessibilityLabel("Settings and targets")
     }
+    // FEATURE 10 — Identify the displayed source
+    // The header marks DEMO versus APPLE HEALTH. The date here is today, while
+    // the sleep card separately dates the night it actually found.
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -136,6 +175,10 @@ struct DashboardView: View {
             Text("Rest. Move. Find your balance.").font(.subheadline).foregroundStyle(.secondary)
         }
     }
+    // FEATURE 11 — Explain connection and read failures
+    // In live mode the user can request or update read permission. While a read is
+    // in progress the button is disabled. Messages from HealthStore explain missing
+    // records or failure; a successful permission prompt does not prove data exists.
     private var connectionBanner: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 10) {
@@ -151,6 +194,11 @@ struct DashboardView: View {
             if let message = store.message { Text(message).font(.caption).foregroundStyle(.secondary) }
         }.frame(maxWidth: .infinity, alignment: .leading).padding(14).background(.white.opacity(0.04), in: RoundedRectangle(cornerRadius: 16))
     }
+    // FEATURE 12 — Turn a recorded night into the sleep-goal card
+    // The card uses the newest night with sleep and compares its hours with your
+    // saved goal. The ring fills up to one complete circle; the label can exceed
+    // 100%. This is goal completion, not sleep quality. An older night is explicitly
+    // labeled, and absent sleep displays a dash rather than an invented duration.
     private var sleepHero: some View {
         VStack(alignment: .leading, spacing: 20) {
             HStack {
@@ -179,6 +227,11 @@ struct DashboardView: View {
             } else { Text("Sync Apple Health to see your latest recorded night.").font(.caption).foregroundStyle(.secondary) }
         }.frame(maxWidth: .infinity, alignment: .leading).panel()
     }
+    // FEATURE 13 — Explain REM relative to your chosen range
+    // REM is one estimated sleep stage. HealthCore supplies its share of total
+    // asleep time. This card shows that percentage, derives hours from the same
+    // night, and compares it with editable targets. If staging is missing, neither
+    // a percentage nor duration is invented. Edit opens Settings; it changes targets.
     private var remCard: some View {
         VStack(alignment: .leading, spacing: 15) {
             HStack {
@@ -212,6 +265,10 @@ struct DashboardView: View {
             Button("Edit sleep & REM targets") { settings = true }.font(.caption.bold())
         }.panel()
     }
+    // FEATURE 14 — Show today's movement
+    // Steps, active energy and exercise minutes come from today's totals in the
+    // store. These are different from the library's individual samples, which may
+    // cover only part of a day. Missing totals display a dash.
     private var activityCard: some View {
         VStack(alignment: .leading, spacing: 18) {
             sectionTitle("TODAY'S MOVEMENT", subtitle: "Everyday activity")
@@ -222,6 +279,9 @@ struct DashboardView: View {
             Text("Today's HealthKit totals. Missing or unreadable records stay blank.").font(.caption).foregroundStyle(.secondary)
         }.panel()
     }
+    // FEATURE 15 — Format one activity total
+    // Use a whole-number label and unit for the supplied total. This helper does
+    // not add samples together; that calculation already happened in HealthStore.
     private func activityRow(_ title: String, icon: String, value: Double?, unit: String, color: Color) -> some View {
         HStack(spacing: 12) {
             Image(systemName: icon).foregroundStyle(color).frame(width: 26)
@@ -231,6 +291,10 @@ struct DashboardView: View {
             Text(unit).font(.caption).foregroundStyle(.secondary)
         }
     }
+    // FEATURE 16 — Display one heart or breathing reading
+    // Reuse one card layout for different measurements. A personal-range badge
+    // appears only when a status was supplied; the caption describes the source
+    // or range. The shared value formatter preserves missing readings as dashes.
     private func vitalCard(_ title: String, value number: Double?, unit: String, icon: String, color: Color, status: String?, caption: String) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Image(systemName: icon).font(.title3).foregroundStyle(color)
@@ -243,6 +307,9 @@ struct DashboardView: View {
             Text(caption).font(.caption2).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
         }.frame(maxWidth: .infinity, minHeight: 160, alignment: .topLeading).panel()
     }
+    // FEATURE 17 — Label sections and status badges
+    // sectionTitle and badge create repeated visual labels. Their callers supply
+    // the wording and color, so these helpers make no health decisions.
     private func sectionTitle(_ title: String, subtitle: String) -> some View {
         VStack(alignment: .leading, spacing: 7) {
             Text(title).font(.caption.bold()).tracking(2).foregroundStyle(Palette.mint)
@@ -253,21 +320,37 @@ struct DashboardView: View {
         Text(text).font(.system(size: 10, weight: .semibold)).foregroundStyle(color)
             .padding(.horizontal, 8).padding(.vertical, 6).background(color.opacity(0.1), in: Capsule())
     }
+    // FEATURE 18 — Compare with optional personal targets
+    // An off switch returns no label. An enabled comparison with no reading says
+    // No data. Otherwise it reports below/within/above the chosen bounds. These
+    // comparisons do not diagnose illness or calculate a recovery score.
     private func personalFlag(_ number: Double?, enabled: Bool, lower: Double, upper: Double) -> String? {
         guard enabled else { return nil }
         guard let number else { return "No data" }
         return number < lower ? "Below your range" : number > upper ? "Above your range" : "Within your range"
     }
+    // FEATURE 19 — Keep missing data and target colors distinct
+    // No reading uses the secondary color. A known reading inside the inclusive
+    // bounds is mint; outside is coral. This follows the same personal comparison.
     private func rangeColor(_ number: Double?, lower: Double, upper: Double) -> Color {
         guard let number else { return .secondary }
         return (lower...upper).contains(number) ? Palette.mint : Palette.coral
     }
+    // FEATURE 20 — Make numbers readable without replacing unknowns
+    // value formats a known number to at most one decimal place; duration converts
+    // known hours to rounded hours/minutes. Both return a dash when data is absent.
+    // Formatting is for display and does not change the stored measurement.
     private func value(_ number: Double?) -> String { number.map { $0.formatted(.number.precision(.fractionLength(0...1))) } ?? "—" }
     private func duration(_ hours: Double?) -> String {
         guard let hours else { return "—" }
         let minutes = max(0, Int((hours * 60).rounded()))
         return "\(minutes / 60)h \(minutes % 60)m"
     }
+    // FEATURE 21 — Draw one metric across the selected days
+    // The key tells this shared chart which field to read from each daily row.
+    // Only known readings receive bars. Dashed lines show your optional targets;
+    // an entirely empty period shows a message. Changing targets moves the lines,
+    // not the measurements. A key path is simply a reference to a field in a row.
     private func trend(_ title: String, key: KeyPath<DailyHealth, Double?>, unit: String, color: Color, lower: Double?, upper: Double?) -> some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
@@ -289,6 +372,11 @@ struct DashboardView: View {
             } else { Text("No readable data for this period").foregroundStyle(.secondary).frame(height: 130) }
         }.panel()
     }
+    // FEATURE 22 — Edit preferences and switch between demo and live
+    // The source toggle asks HealthStore to replace displayed data and invalidate
+    // old reads. Goals/ranges and card visibility persist on this device. Lower
+    // and upper controls constrain each other so the range cannot be reversed.
+    // Synthetic biomarkers are offered only in demo mode.
     private var settingsView: some View {
         NavigationStack {
             Form {
@@ -321,6 +409,10 @@ struct DashboardView: View {
                     Toggle("Show respiratory rate", isOn: $showBreathing)
                     Toggle("Show blood oxygen", isOn: $showOxygen)
                 }
+                // FEATURE 23 — Save a reminder or mute immediately
+                // Changing the time alone does not reschedule the reminder: Save calls
+                // ReminderManager. Turning reminders off cancels pending reminders immediately.
+                // The test schedules fictional text in five seconds, not a health-triggered alert.
                 Section("Local morning reminder") {
                     Toggle("Enable reminders (off = muted)", isOn: $enabled)
                         .onChange(of: enabled) { _, flag in if !flag { Task { await reminders.update(enabled: false, hour: hour, minute: minute) } } }

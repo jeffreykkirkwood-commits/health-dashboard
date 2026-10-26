@@ -1,5 +1,7 @@
 # Health Dashboard
 
+**New to the code?** Begin with [Start Here](docs/START-HERE.md), then follow the numbered `FEATURE` explanations inside each source file. The [file checklist](docs/CODE-COVERAGE.md) accounts for source, tests, configuration and fictional data.
+
 A personal, iPhone-first SwiftUI app that reads Apple Health data on-device. Apple Watch is a data source through HealthKit; there is no separate Watch app, backend, analytics, or health upload service.
 
 The **0.2.0 / build 2** redesign is present on `main` (baseline `4d8714e`). It includes Today, Trends and Health Library. Repository availability does not establish which version is installed on a device; expanded permissions and live readings still require device acceptance. Start with the [synthetic portfolio walkthrough](docs/PORTFOLIO-DEMO.md).
