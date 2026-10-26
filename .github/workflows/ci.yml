@@ -1,0 +1,46 @@
+# FEATURE — On-demand checks for the Health Dashboard.
+# Runs the SwiftPM calculation/biomarker tests and an unsigned iOS compile.
+# It runs only when started by hand (Actions tab > CI > Run workflow), so it never blocks a
+# pull request; device testing on a real iPhone is the release check instead.
+# No signing keys, provisioning profiles or real health data are used.
+name: CI
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-build:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      # The catalog targets the iOS 27.1 SDK. Pick the newest Xcode on the runner and
+      # print its version so an older SDK is easy to spot in the log.
+      - name: Select newest Xcode
+        run: |
+          XCODE=$(ls -d /Applications/Xcode*.app | sort -V | tail -n 1)
+          sudo xcode-select -s "$XCODE/Contents/Developer"
+          xcodebuild -version
+
+      # FEATURE 01 — Calculation and biomarker tests (Package.swift, 12 tests).
+      - name: Swift package tests
+        run: swift test
+
+      # FEATURE 02 — Unsigned compile of the iPhone app (scheme HealthDashboard).
+      # The HealthDashboard scheme has no test action or XCTest target yet, so
+      # `xcodebuild test -scheme HealthDashboard` would fail; tests run through SwiftPM above.
+      - name: Unsigned iOS build
+        run: >
+          xcodebuild -project HealthDashboard.xcodeproj
+          -scheme HealthDashboard
+          -destination 'generic/platform=iOS'
+          CODE_SIGNING_ALLOWED=NO
+          build
