@@ -1,5 +1,4 @@
 // PURPOSE: List supported Apple Health record types and friendly names. This is a catalog of definitions, not collected personal data.
-// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
 
 import Foundation
 import HealthKit

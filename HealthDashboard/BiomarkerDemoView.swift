@@ -1,5 +1,4 @@
 // PURPOSE: Display a safe fictional lab report example and show how corrected/missing results are represented.
-// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
 
 import SwiftUI
 

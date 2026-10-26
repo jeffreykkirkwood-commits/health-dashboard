@@ -1,5 +1,4 @@
 // PURPOSE: Build the screens you see: Today, Trends, Health Library and Settings. This file displays readings; HealthStore.swift obtains them.
-// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
 
 import SwiftUI
 import Charts
@@ -35,8 +34,9 @@ extension View {
 // FEATURE 04 — Keep readings and personal choices together
 // DashboardStore holds the readings used by the screen; ReminderManager handles
 // iPhone reminders. @StateObject keeps each helper alive as the screen redraws.
-// @AppStorage saves the following preferences on this device between launches;
-// changing a goal does not edit any record in Apple Health.
+// @AppStorage saves the following preferences on this device between launches.
+// Goals and ranges are personal preferences, not medical thresholds, and changing
+// one does not edit any record in Apple Health.
 struct DashboardView: View {
     @StateObject private var store = DashboardStore()
     @StateObject private var reminders = ReminderManager()

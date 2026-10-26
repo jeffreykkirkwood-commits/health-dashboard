@@ -1,5 +1,4 @@
 // PURPOSE: Check sleep calculations with invented timestamps. These tests do not request HealthKit permission or read a person's data.
-// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
 
 import XCTest
 @testable import HealthCore
