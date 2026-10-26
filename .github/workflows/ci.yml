@@ -1,14 +1,11 @@
-# FEATURE — Continuous checks for the Health Dashboard.
-# Runs the SwiftPM calculation/biomarker tests and an unsigned iOS compile on every push
-# and pull request. No signing keys, provisioning profiles or real health data are used.
-# Note: macOS runners on private repositories consume GitHub Actions minutes at a higher
-# rate than Linux runners (10x at the time of writing).
+# FEATURE — On-demand checks for the Health Dashboard.
+# Runs the SwiftPM calculation/biomarker tests and an unsigned iOS compile.
+# It runs only when started by hand (Actions tab > CI > Run workflow), so it never blocks a
+# pull request; device testing on a real iPhone is the release check instead.
+# No signing keys, provisioning profiles or real health data are used.
 name: CI
 
 on:
-  push:
-    branches: [main]
-  pull_request:
   workflow_dispatch:
 
 permissions:
