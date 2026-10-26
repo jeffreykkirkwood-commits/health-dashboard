@@ -58,7 +58,7 @@ Continuous integration: `.github/workflows/ci.yml` runs `swift test` and the uns
 
 Historical validation of the redesign (not a guarantee of a new checkout): all 12 existing automated calculation/biomarker tests pass; iPhone and simulator builds succeeded; a signed iPhone build was prepared; the synthetic Today screen was visually inspected in a simulator. Plist syntax and Git whitespace checks pass. New live Health categories, full interaction/accessibility checks, and the updated iPhone installation are pending. Existing tests do not cover the new HealthKit integration or all UI behavior.
 
-Device acceptance after approval: update Health permissions; check actual data/missing-data behavior for added dashboard metrics; connect representative quantity/category/workout records from the library; edit sleep and REM bounds and verify indicators/chart lines; enable and set personal vital ranges; exercise 7/30-day switching, app relaunch, refresh, notification mute/rescheduling, and larger text. No real records should be exported for testing.
+Device acceptance after approval: update Health permissions; check actual data/missing-data behavior for added dashboard metrics; connect representative quantity/category/workout records from the library; edit sleep and REM bounds and verify indicators/chart lines; enable and set personal vital ranges; exercise 7/30-day switching, app relaunch, refresh, notification mute/rescheduling, and larger text. No real records should be exported for testing. Record results in the [device acceptance checklist](docs/DEVICE-ACCEPTANCE.md) (not yet run).
 
 ## Design research
 
