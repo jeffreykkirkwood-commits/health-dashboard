@@ -1,5 +1,11 @@
+// PURPOSE: Display a safe fictional lab report example and show how corrected/missing results are represented.
+// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
+
 import SwiftUI
 
+// FEATURE 01 — Open a fictional lab demonstration
+// The screen holds either a validated envelope or a readable load error. The
+// notice tells the viewer that people, providers, results and ranges are fiction.
 struct BiomarkerDemoView: View {
     @State private var envelope: BiomarkerEnvelope?
     @State private var error: String?
@@ -11,6 +17,10 @@ struct BiomarkerDemoView: View {
             }
             if let error { Section { Text(error) } }
             if let envelope {
+                // FEATURE 02 — Show comparable glucose history
+                // Ask BiomarkerTrends for one sample person, unit, specimen and method.
+                // Show the reported text/date and explicitly label results without an exact
+                // number. The model excludes replaced versions from this comparison.
                 Section("Comparable glucose demo history") {
                     let coding = LabCoding(system: "urn:health-dashboard:synthetic:analytes", code: "glucose-demo", display: nil)
                     let specimen = LabCoding(system: coding.system, code: "serum", display: "SYNTHETIC serum specimen")
@@ -25,6 +35,10 @@ struct BiomarkerDemoView: View {
                     }
                     Text("Amended results replace earlier versions in this history. Different units stay separate; missing and comparator results are not treated as zero or exact values.").font(.caption)
                 }
+                // FEATURE 03 — Inspect the original reports and corrections
+                // Unlike the comparison above, this expandable report list retains revision
+                // history. It shows provider, replacement links, collection/issue dates, source
+                // ranges and flags so a reader can understand the context of each result.
                 Section("Reports · includes revision history") {
                     ForEach(envelope.reports) { report in
                         DisclosureGroup {
@@ -47,6 +61,9 @@ struct BiomarkerDemoView: View {
             }
         }
         .navigationTitle("Biomarkers demo")
+        // FEATURE 04 — Load only the bundled fixture when the view opens
+        // Read and validate the local fictional JSON. If it fails, display an error
+        // without attempting a provider connection or replacing it with real data.
         .task {
             do {
                 envelope = try BiomarkerImport.loadBundledDemo()

@@ -1,7 +1,14 @@
+// PURPOSE: Bring Apple Health readings into the dashboard while keeping demo values separate. HealthKit is Apple's on-device health-data interface.
+// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
+
 import Foundation
 import HealthKit
 import SwiftUI
 
+// FEATURE 01 — Own the values the screen observes
+// @Published values cause the UI to redraw when they change. @MainActor keeps
+// those UI updates on the main execution path. UserDefaults remembers only
+// the demo/live preference here; this class does not upload readings.
 @MainActor final class DashboardStore: ObservableObject {
     @Published var rows: [DailyHealth] = []
     @Published var lastSync: Date?
@@ -10,6 +17,10 @@ import SwiftUI
     @Published var demo = UserDefaults.standard.object(forKey: "demoMode") == nil ? true : UserDefaults.standard.bool(forKey: "demoMode")
     @Published var extraValues: [String: Double] = [:]
     @Published var extraSync: Date?
+    // FEATURE 02 — Choose how each extra metric is summarized
+    // The true/false flag chooses a total for steps/energy/exercise and an average
+    // for respiration/oxygen. Adding a metric here affects permissions and today's
+    // read; it does not automatically create a new screen card.
     private let extras: [(HKQuantityTypeIdentifier, HKUnit, Bool)] = [
         (.stepCount, .count(), true), (.activeEnergyBurned, .kilocalorie(), true),
         (.appleExerciseTime, .minute(), true), (.respiratoryRate, HKUnit.count().unitDivided(by: .minute()), false),
@@ -23,6 +34,10 @@ import SwiftUI
 
     // Changing mode invalidates in-flight foreground reads. A late HealthKit result
     // must not replace synthetic rows or reveal old live values after switching modes.
+    // FEATURE 03 — Switch sources without mixing their values
+    // When you toggle synthetic data, immediately replace the rows, clear previous
+    // sync information and save the choice. generation is a changing request number:
+    // a read that started under the old choice must not overwrite the new display.
     func setDemo(_ enabled: Bool) {
         generation += 1; busy = false; demo = enabled; lastSync = nil; message = nil
         UserDefaults.standard.set(enabled, forKey: "demoMode")
@@ -32,6 +47,11 @@ import SwiftUI
                                  "HKQuantityTypeIdentifierOxygenSaturation": 0.98] : [:]
         extraSync = nil
     }
+    // FEATURE 04 — Ask permission only when the user connects
+    // Check that HealthKit exists, request read access for the dashboard metrics,
+    // then refresh. toShare is empty: no write permission is requested. A failed
+    // prompt sets a readable message. Apple does not disclose which read types
+    // were denied, so permission completion alone cannot mean all data is available.
     func connect() async {
         guard HKHealthStore.isHealthDataAvailable() else { message = "HealthKit is unavailable on this device. Try synthetic demo mode."; return }
         do {
@@ -42,6 +62,11 @@ import SwiftUI
     // Fetch a 30-day window, reduce samples into dated rows, then publish on the main
     // actor. Empty sample sets stay nil: HealthKit does not disclose read denial.
     // This is a foreground refresh, not observer delivery or overnight monitoring.
+    // FEATURE 05 — Read data and publish a new dashboard
+    // A busy flag prevents overlapping refreshes. Demo mode regenerates fictional
+    // rows instead of querying HealthKit. Live mode remembers the current request
+    // number, reads 30 days of sleep/heart samples, and groups them into daily rows.
+    // This runs when the app asks to refresh; it is not a background monitoring loop.
     func refresh() async {
         guard !busy else { return }
         if demo { setDemo(true); return }
@@ -55,12 +80,19 @@ import SwiftUI
             let heartSamples = (try await samples(rhr, from: days[0])).compactMap { $0 as? HKQuantitySample }
             let variabilitySamples = (try await samples(hrv, from: days[0])).compactMap { $0 as? HKQuantitySample }
             guard generation == token, !demo else { return }
+            // FEATURE 06 — Convert Apple samples into the app's daily model
+            // Sleep goes through HealthMath's one-source/night calculation. Heart readings
+            // are grouped by their start date and averaged, not added. The newest relevant
+            // sample timestamp accompanies each row so the UI can explain its freshness.
             let segments = sleepSamples.map { SleepSegment(start: $0.startDate, end: $0.endDate, stage: $0.value, source: $0.sourceRevision.source.name + " · " + $0.sourceRevision.source.bundleIdentifier) }
             let calendar = Calendar.current
             rows = days.map { day in
                 let s = HealthMath.sleep(for: day, segments: segments)
                 let heart = heartSamples.filter { calendar.isDate($0.startDate, inSameDayAs: day) }
                 let variability = variabilitySamples.filter { calendar.isDate($0.startDate, inSameDayAs: day) }
+                // FEATURE 07 — Keep empty heart days unknown
+                // No samples returns nil. Otherwise take the arithmetic mean: add the values
+                // and divide by the number of samples. This is descriptive, not a medical baseline.
                 func mean(_ values: [HKQuantitySample], unit: HKUnit) -> Double? {
                     values.isEmpty ? nil : values.map { $0.quantity.doubleValue(for: unit) }.reduce(0,+) / Double(values.count)
                 }
@@ -69,6 +101,10 @@ import SwiftUI
                     hrv: mean(variability, unit: .secondUnit(with: .milli)),
                     measuredAt: ([s.timestamp].compactMap { $0 } + heart.map(\.endDate) + variability.map(\.endDate)).max(), sleepSource: s.source)
             }
+            // FEATURE 08 — Read today's movement and breathing cards
+            // Ask for each extra statistic separately. A failed extra read is omitted rather
+            // than blocking all extras. Before publishing, check that the source choice is
+            // still current; a late live response must not replace the new demo display.
             var updatedExtras: [String: Double] = [:]
             for (identifier, unit, cumulative) in extras {
                 if let type = HKObjectType.quantityType(forIdentifier: identifier),
@@ -80,11 +116,20 @@ import SwiftUI
             extraValues = updatedExtras; extraSync = Date()
             lastSync = Date()
             if rows.allSatisfy({ $0.measuredAt == nil }) { message = "No readable samples. Data may be missing or Health access may be off. HealthKit does not reveal whether read permission was denied." }
+        // FEATURE 09 — Handle failed refresh honestly
+        // Discard this attempt's visible rows and timestamps and show a retry message.
+        // If the user already switched sources, ignore the outdated failure too. An
+        // empty successful result is described as unreadable/missing, not proven denial.
         } catch {
             guard generation == token else { return }
             rows = []; extraValues = [:]; extraSync = nil; lastSync = nil; message = "Sync failed. Unlock your iPhone, review Health access, and retry."
         }
     }
+    // FEATURE 10 — Ask Apple for today's total or average
+    // Restrict samples to those starting today, request the appropriate statistic
+    // and convert it to the requested unit. A continuation lets the async caller
+    // wait for Apple's callback without blocking the screen. Errors are returned
+    // to the caller; there is no fabricated fallback value.
     private func todayStatistic(_ type: HKQuantityType, unit: HKUnit, cumulative: Bool) async throws -> Double? {
         try await withCheckedThrowingContinuation { continuation in
             let start = Calendar.current.startOfDay(for: Date())
@@ -98,6 +143,10 @@ import SwiftUI
             health.execute(query)
         }
     }
+    // FEATURE 11 — Retrieve dated records for the daily calculations
+    // Ask HealthKit for this type from the requested start until now. Return its
+    // samples or propagate its error. The caller decides how to group them; this
+    // helper does not interpret stages, choose sources or change health records.
     private func samples(_ type: HKSampleType, from: Date) async throws -> [HKSample] {
         try await withCheckedThrowingContinuation { continuation in
             let query = HKSampleQuery(sampleType: type, predicate: HKQuery.predicateForSamples(withStart: from, end: Date(), options: []), limit: HKObjectQueryNoLimit, sortDescriptors: nil) { _, samples, error in

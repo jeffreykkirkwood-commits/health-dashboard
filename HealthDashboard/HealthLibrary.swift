@@ -1,7 +1,13 @@
+// PURPOSE: Let the user search supported health types, choose one, and read its recent on-device samples without bulk authorization.
+// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
+
 import SwiftUI
 import HealthKit
 import Charts
 
+// FEATURE 01 — Describe one row in a metric's history
+// Keep sample identity, times, display text and source. value is optional
+// because a category such as a symptom need not be a numeric chart point.
 struct HealthReading: Identifiable {
     let id: UUID
     let date: Date
@@ -11,6 +17,9 @@ struct HealthReading: Identifiable {
     let source: String
 }
 
+// FEATURE 02 — Hold the selected metric's reading state
+// Published fields update the detail screen as reading begins, succeeds or
+// fails. This reader has no upload or database-writing path.
 @MainActor final class HealthLibraryReader: ObservableObject {
     @Published var readings: [HealthReading] = []
     @Published var busy = false
@@ -21,6 +30,11 @@ struct HealthReading: Identifiable {
     // Request only the selected type and show its newest 100 samples in 30 days.
     // These are individual observations, not daily aggregates. Unit compatibility
     // is checked before conversion; a failed or empty read is never fabricated data.
+    // FEATURE 03 — Connect and read the selected metric
+    // The user presses Connect & refresh. Avoid duplicate reads, clear previous
+    // rows, then ask read permission for this one type. Choose the user's Health
+    // unit for a quantity and refuse an incompatible unit instead of converting
+    // incorrectly. Read at most 100 records from 30 days, newest first.
     func load(_ metric: HealthMetricDefinition) async {
         guard !busy, HKHealthStore.isHealthDataAvailable(), let type = metric.sampleType else { return }
         busy = true; readings = []; message = nil
@@ -45,6 +59,11 @@ struct HealthReading: Identifiable {
                 }
                 health.execute(query)
             }
+            // FEATURE 04 — Turn raw samples into understandable rows
+            // Quantities become unit-labelled numbers; fractions displayed as percentages
+            // are multiplied by 100. Categories use known labels or retain the original
+            // code. Workouts show minutes and activity. These are individual samples,
+            // not daily totals; a single step sample may represent only part of a day.
             readings = samples.map { sample in
                 var value: Double?; var display: String
                 if let quantity = sample as? HKQuantitySample, let preferredUnit {
@@ -60,11 +79,18 @@ struct HealthReading: Identifiable {
                 return HealthReading(id: sample.uuid, date: sample.startDate, end: sample.endDate, value: value,
                                      display: display, source: sample.sourceRevision.source.name)
             }
+            // FEATURE 05 — Explain absent or failed readings
+            // No samples may mean missing data, restricted history or read access being
+            // off; Apple hides read denial. A thrown error asks the user to unlock/check
+            // access and retry. Neither case substitutes synthetic measurements.
             if readings.isEmpty { message = "No readable records in the last 30 days. Data may be missing, outside your allowed history, or access may be off. Apple does not disclose denied read permissions." }
         } catch {
             message = "Could not read this metric. Unlock your iPhone, check this app's access in Apple Health, and try again."
         }
     }
+    // FEATURE 06 — Name common workouts without guessing others
+    // Known activity codes receive friendly names. Unlisted types keep their
+    // numeric code in the label instead of being misidentified as another sport.
     private func workoutName(_ type: HKWorkoutActivityType) -> String {
         switch type {
         case .walking: return "Walking"
@@ -80,6 +106,10 @@ struct HealthReading: Identifiable {
     }
 }
 
+// FEATURE 07 — Search the catalog before connecting data
+// Search filters titles and group names already held in HealthCatalog. Group
+// headings organize the matching definitions. Browsing these names does not
+// read every metric; each detail owns the explicit Connect action.
 struct HealthLibraryView: View {
     let demo: Bool
     @State private var search = ""
@@ -119,6 +149,10 @@ struct HealthLibraryView: View {
         .scrollContentBackground(.hidden).background(Palette.background)
         .navigationTitle("Health Library").searchable(text: $search, prompt: "Search metrics or categories")
     }
+    // FEATURE 08 — Explain what this release can and cannot read
+    // The coverage page distinguishes supported sample types from specialized
+    // records that need another reader. Catalog size is not the number of types
+    // tested on a real device or the number of records the user has.
     private var coverage: some View {
         List {
             Section("Available now") {
@@ -138,6 +172,11 @@ struct HealthLibraryView: View {
     }
 }
 
+// FEATURE 09 — Display one chosen metric and its history
+// In demo mode this screen explains that live reads are paused. Otherwise
+// the user explicitly starts a read; the latest returned sample is highlighted,
+// known numeric samples receive chart points and every row keeps its source.
+// A sample history is not a diagnosis or a calculation of daily totals.
 struct HealthMetricDetail: View {
     let metric: HealthMetricDefinition
     let demo: Bool
