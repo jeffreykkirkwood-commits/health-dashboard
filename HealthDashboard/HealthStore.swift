@@ -28,9 +28,9 @@ import SwiftUI
     ]
     private let health = HKHealthStore()
     private var generation = 0
-    private let sleep = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
-    private let rhr = HKObjectType.quantityType(forIdentifier: .restingHeartRate)!
-    private let hrv = HKObjectType.quantityType(forIdentifier: .heartRateVariabilitySDNN)!
+    private let sleep = HKCategoryType(.sleepAnalysis)
+    private let rhr = HKQuantityType(.restingHeartRate)
+    private let hrv = HKQuantityType(.heartRateVariabilitySDNN)
 
     // FEATURE 03 — Switch sources without mixing their values
     // When you toggle synthetic data, immediately replace the rows, clear previous
