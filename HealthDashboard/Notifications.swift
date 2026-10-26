@@ -1,5 +1,4 @@
 // PURPOSE: Schedule generic on-device reminders chosen by the user. No health reading or threshold check runs in this file.
-// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
 
 import Foundation
 import Combine
@@ -12,9 +11,6 @@ import UserNotifications
     @Published var message = "Notifications are off until you enable them."
     private let center = UNUserNotificationCenter.current()
     private var generation = 0
-    // Replace the one generic reminder; no health query or threshold test runs here.
-    // Generation checks keep an older authorization response from undoing a mute.
-    // The OS controls delivery timing, so this cannot promise background alerts.
     // FEATURE 02 — Save a daily reminder or mute immediately
     // Remove this app's pending morning/test requests first. If disabled, stop
     // there. Otherwise ask notification permission and schedule one repeating

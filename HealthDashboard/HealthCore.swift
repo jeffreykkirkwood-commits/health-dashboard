@@ -1,5 +1,4 @@
 // PURPOSE: Calculate daily sleep summaries and provide fictional dashboard data without needing Apple Health or a screen.
-// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
 
 import Foundation
 
@@ -25,6 +24,7 @@ struct DailyHealth: Identifiable {
     var measuredAt: Date?
     var sleepSource: String?
 }
+// The sleep math, kept free of Apple Health and screens so the Mac tests can check it.
 enum HealthMath {
     // FEATURE 03 — Count overlapping time only once
     // Sort valid time intervals and join those that overlap or touch. Summing
@@ -40,10 +40,9 @@ enum HealthMath {
         }
         return total + current.duration
     }
-    // Noon-to-noon window assigned to its morning date. Split at boundaries,
-    // avoiding midnight double counting and retaining timezone/DST semantics.
     // FEATURE 04 — Assign sleep to a night and choose one source
-    // Take the window from yesterday's noon to this day's noon, keeping only
+    // A "night" is yesterday's noon to this day's noon, so sleep that crosses
+    // midnight counts once, under the morning's date. Keep only
     // asleep stages. Group by source, prefer a source with stage detail, then use
     // the longest covered duration. Never add two devices' overlapping nights.
     // This is this app's source-selection rule, not Apple Health's prioritization.
@@ -58,7 +57,6 @@ enum HealthMath {
         func clipped(_ items: [SleepSegment]) -> [DateInterval] {
             items.map { DateInterval(start: max(previous, $0.start), end: min(noon, $0.end)) }
         }
-        // Prefer a source with staging; never combine overlapping sources.
         let selected = groups.keys.sorted().max { a, b in
             let aa = groups[a]!, bb = groups[b]!
             let aStaged = aa.contains { $0.stage >= 3 }, bStaged = bb.contains { $0.stage >= 3 }

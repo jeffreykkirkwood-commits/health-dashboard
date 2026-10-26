@@ -1,6 +1,5 @@
 // swift-tools-version: 5.9
 // PURPOSE: Define the small Swift test package separately from the iPhone app.
-// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
 
 import PackageDescription
 // FEATURE 01 — Test calculation and lab rules without iPhone services

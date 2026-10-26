@@ -1,5 +1,4 @@
 // PURPOSE: Check the fictional lab model's import and comparison rules. No provider account or real laboratory records are used.
-// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
 
 import XCTest
 @testable import HealthCore
