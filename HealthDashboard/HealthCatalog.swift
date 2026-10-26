@@ -1,6 +1,13 @@
+// PURPOSE: List supported Apple Health record types and friendly names. This is a catalog of definitions, not collected personal data.
+// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
+
 import Foundation
 import HealthKit
 
+// FEATURE 01 — Describe a type the user can browse
+// A definition contains Apple's identifier, display name, group, kind and
+// minimum supported iOS version. Quantity means a measured number; category
+// means a recorded label/code; workouts are activity sessions.
 struct HealthMetricDefinition: Identifiable {
     let id: String
     let title: String
@@ -9,6 +16,10 @@ struct HealthMetricDefinition: Identifiable {
     let minimumMajor: Int
     let minimumMinor: Int
     let categoryLabels: [Int: String]
+    // FEATURE 02 — Hide types this iPhone cannot request
+    // Check the OS version first and ask Apple for the corresponding sample type.
+    // Unknown kinds return nil. The library filters these out instead of offering
+    // a Connect action for a type this device cannot represent.
     var sampleType: HKSampleType? {
         guard ProcessInfo.processInfo.isOperatingSystemAtLeast(OperatingSystemVersion(majorVersion: minimumMajor, minorVersion: minimumMinor, patchVersion: 0)) else { return nil }
         switch kind {
@@ -21,6 +32,11 @@ struct HealthMetricDefinition: Identifiable {
 }
 enum HealthCatalog {
     // Public iOS 27.1 SDK quantity/category identifiers; older devices filter by availability.
+    // FEATURE 03 — Build the readable library catalog
+    // Each row maps an SDK identifier to a title/group and required OS version.
+    // The list includes quantities, then category events, then workouts. Category
+    // label dictionaries translate stored numbers into text; unknown sample codes
+    // are preserved by HealthLibrary. These rows do not grant read permission.
     static let definitions: [HealthMetricDefinition] = {
         var result: [HealthMetricDefinition] = []
         result.append(.init(id: HKQuantityTypeIdentifier.appleSleepingWristTemperature.rawValue, title: "Sleeping wrist temperature", group: "Body Measurements", kind: "quantity", minimumMajor: 16, minimumMinor: 0, categoryLabels: [:]))
@@ -218,5 +234,8 @@ enum HealthCatalog {
         result.append(.init(id: HKObjectType.workoutType().identifier, title: "Workouts", group: "Fitness", kind: "workout", minimumMajor: 8, minimumMinor: 0, categoryLabels: [:]))
         return result
     }()
+    // FEATURE 04 — Expose only available definitions
+    // Keep rows whose sample type exists on this OS. The resulting count describes
+    // software support only; it says nothing about permission or saved health history.
     static var available: [HealthMetricDefinition] { definitions.filter { $0.sampleType != nil } }
 }
