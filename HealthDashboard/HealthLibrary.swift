@@ -1,5 +1,4 @@
 // PURPOSE: Let the user search supported health types, choose one, and read its recent on-device samples without bulk authorization.
-// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
 
 import SwiftUI
 import HealthKit
@@ -27,9 +26,6 @@ struct HealthReading: Identifiable {
     @Published var unit = ""
     private let health = HKHealthStore()
 
-    // Request only the selected type and show its newest 100 samples in 30 days.
-    // These are individual observations, not daily aggregates. Unit compatibility
-    // is checked before conversion; a failed or empty read is never fabricated data.
     // FEATURE 03 — Connect and read the selected metric
     // The user presses Connect & refresh. Avoid duplicate reads, clear previous
     // rows, then ask read permission for this one type. Choose the user's Health

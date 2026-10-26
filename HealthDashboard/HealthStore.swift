@@ -1,14 +1,14 @@
 // PURPOSE: Bring Apple Health readings into the dashboard while keeping demo values separate. HealthKit is Apple's on-device health-data interface.
-// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
 
 import Foundation
 import HealthKit
 import SwiftUI
 
 // FEATURE 01 — Own the values the screen observes
-// @Published values cause the UI to redraw when they change. @MainActor keeps
-// those UI updates on the main execution path. UserDefaults remembers only
-// the demo/live preference here; this class does not upload readings.
+// @Published values make the screen redraw when they change. @MainActor makes
+// these updates run on the main thread, the only one allowed to touch the screen.
+// UserDefaults (simple on-device settings storage) remembers only the demo/live
+// choice here; this class never uploads readings.
 @MainActor final class DashboardStore: ObservableObject {
     @Published var rows: [DailyHealth] = []
     @Published var lastSync: Date?
@@ -32,8 +32,6 @@ import SwiftUI
     private let rhr = HKObjectType.quantityType(forIdentifier: .restingHeartRate)!
     private let hrv = HKObjectType.quantityType(forIdentifier: .heartRateVariabilitySDNN)!
 
-    // Changing mode invalidates in-flight foreground reads. A late HealthKit result
-    // must not replace synthetic rows or reveal old live values after switching modes.
     // FEATURE 03 — Switch sources without mixing their values
     // When you toggle synthetic data, immediately replace the rows, clear previous
     // sync information and save the choice. generation is a changing request number:
@@ -59,14 +57,11 @@ import SwiftUI
             await refresh()
         } catch { message = "Health access request failed. You can review access in the Health app and retry." }
     }
-    // Fetch a 30-day window, reduce samples into dated rows, then publish on the main
-    // actor. Empty sample sets stay nil: HealthKit does not disclose read denial.
-    // This is a foreground refresh, not observer delivery or overnight monitoring.
     // FEATURE 05 — Read data and publish a new dashboard
     // A busy flag prevents overlapping refreshes. Demo mode regenerates fictional
     // rows instead of querying HealthKit. Live mode remembers the current request
     // number, reads 30 days of sleep/heart samples, and groups them into daily rows.
-    // This runs when the app asks to refresh; it is not a background monitoring loop.
+    // This only runs when the app asks to refresh; nothing monitors in the background.
     func refresh() async {
         guard !busy else { return }
         if demo { setDemo(true); return }
@@ -127,9 +122,9 @@ import SwiftUI
     }
     // FEATURE 10 — Ask Apple for today's total or average
     // Restrict samples to those starting today, request the appropriate statistic
-    // and convert it to the requested unit. A continuation lets the async caller
-    // wait for Apple's callback without blocking the screen. Errors are returned
-    // to the caller; there is no fabricated fallback value.
+    // and convert it to the requested unit. Apple answers later via a callback;
+    // withCheckedThrowingContinuation lets this function simply wait for that answer
+    // without freezing the screen. Errors are passed back; no fallback value is made up.
     private func todayStatistic(_ type: HKQuantityType, unit: HKUnit, cumulative: Bool) async throws -> Double? {
         try await withCheckedThrowingContinuation { continuation in
             let start = Calendar.current.startOfDay(for: Date())

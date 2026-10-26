@@ -1,5 +1,4 @@
 // PURPOSE: Build the screens you see: Today, Trends, Health Library and Settings. This file displays readings; HealthStore.swift obtains them.
-// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
 
 import SwiftUI
 import Charts

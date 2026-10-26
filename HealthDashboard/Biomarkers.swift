@@ -1,10 +1,7 @@
 // PURPOSE: Describe and validate fictional lab reports loaded from the bundled JSON file. No real lab provider or clinical-record importer is connected.
-// READING GUIDE: Follow the numbered FEATURE sections below; see docs/START-HERE.md for the whole app.
 
 import Foundation
 
-// App-owned interchange model, not a provider API payload or FHIR resource.
-// Raw strings preserve source precision, unknown codes/statuses, and date granularity.
 // FEATURE 01 — Retain the source's meaning and identifiers
 // A coding is a system/code pair plus an optional readable label. Identifiers
 // name records in their source system. Keeping both avoids confusing equal
@@ -120,6 +117,7 @@ enum BiomarkerImportError: Error, Equatable {
     case unsupportedSchema, syntheticOnlyRequired, duplicateID, conflictingReport(String), invalidValue(String), unresolvedRevision(String)
 }
 
+// Loading, merging and checking the fictional lab file (FEATURES 08–12).
 enum BiomarkerImport {
     // FEATURE 08 — Load the fictional file shipped with the app
     // Choose the test-package bundle or app bundle, locate the JSON fixture and
@@ -136,7 +134,6 @@ enum BiomarkerImport {
         }
         return try decodeSynthetic(Data(contentsOf: url))
     }
-    // Deliberately accepts only fictional fixtures in this milestone.
     // FEATURE 09 — Decode the file before allowing it onto the screen
     // JSONDecoder turns structured JSON text into the models above. validate then
     // checks the format and safety rules. A parse or validation error stops the load.
@@ -145,8 +142,6 @@ enum BiomarkerImport {
         try validate(envelope)
         return envelope
     }
-    // Identical imports are idempotent. Changed content under the same local
-    // report ID requires an explicit revision ID rather than silent replacement.
     // FEATURE 10 — Make a repeated import harmless
     // Idempotency means repeating the same instruction has no extra effect.
     // Identical report IDs with identical content are kept once. Different content
@@ -229,9 +224,8 @@ struct LabTrendPoint: Identifiable {
     let date: Date
     let exactValue: Decimal?
 }
+// Picking out results that can fairly be compared over time (FEATURE 14).
 enum BiomarkerTrends {
-    // Narrow comparison: same subject, analyte system/code, raw unit, specimen
-    // and method. No unit conversion, clinical inference, or missing-to-zero.
     // FEATURE 14 — Choose only genuinely comparable history
     // Select the same person, analyte code/system, raw unit, specimen and method.
     // Use final/amended/corrected records and omit versions replaced by later ones.
