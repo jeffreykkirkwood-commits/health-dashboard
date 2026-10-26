@@ -6,6 +6,9 @@ import UserNotifications
     @Published var message = "Notifications are off until you enable them."
     private let center = UNUserNotificationCenter.current()
     private var generation = 0
+    // Replace the one generic reminder; no health query or threshold test runs here.
+    // Generation checks keep an older authorization response from undoing a mute.
+    // The OS controls delivery timing, so this cannot promise background alerts.
     func update(enabled: Bool, hour: Int, minute: Int) async {
         generation += 1
         let token = generation

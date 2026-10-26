@@ -2,7 +2,7 @@
 
 A personal, iPhone-first SwiftUI app that reads Apple Health data on-device. Apple Watch is a data source through HealthKit; there is no separate Watch app, backend, analytics, or health upload service.
 
-The original prototype is installed on the user's iPhone, and the user confirmed real Apple Health readings. The **0.2.0 / build 2** redesign is implemented locally and prepared for review, not yet deployed to the iPhone or pushed to GitHub. Expanded permissions and readings still require device verification after approval.
+The **0.2.0 / build 2** redesign is present on `main` (baseline `4d8714e`). It includes Today, Trends and Health Library. Repository availability does not establish which version is installed on a device; expanded permissions and live readings still require device acceptance. Start with the [synthetic portfolio walkthrough](docs/PORTFOLIO-DEMO.md).
 
 ## What changed in 0.2.0
 
@@ -48,11 +48,11 @@ HealthKit does not reveal whether read access was denied. Empty results may mean
 
 ## Build and validation
 
-Full Xcode 27.1 is installed. Open `HealthDashboard.xcodeproj`, choose the HealthDashboard scheme and iPhone, and select the user's Personal Team for signing. The target supports iOS 17+; newer catalog types are gated by availability. No signing credentials or real health data belong in Git.
+The catalog was authored against the iOS 27.1 SDK; use Xcode 27.1 or a compatible newer SDK to compile it. Open `HealthDashboard.xcodeproj`, choose the HealthDashboard scheme and iPhone, and select the user's Personal Team for signing. The target supports iOS 17+; newer catalog types are gated by availability. No signing credentials or real health data belong in Git.
 
 For core tests: `swift test`. For an unsigned compile: `xcodebuild -project HealthDashboard.xcodeproj -scheme HealthDashboard -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO build`.
 
-Validation of the redesign: all 12 existing automated calculation/biomarker tests pass; iPhone and simulator builds succeeded; a signed iPhone build was prepared; the synthetic Today screen was visually inspected in a simulator. Plist syntax and Git whitespace checks pass. New live Health categories, full interaction/accessibility checks, and the updated iPhone installation are pending. Existing tests do not cover the new HealthKit integration or all UI behavior.
+Historical validation of the redesign (not a guarantee of a new checkout): all 12 existing automated calculation/biomarker tests pass; iPhone and simulator builds succeeded; a signed iPhone build was prepared; the synthetic Today screen was visually inspected in a simulator. Plist syntax and Git whitespace checks pass. New live Health categories, full interaction/accessibility checks, and the updated iPhone installation are pending. Existing tests do not cover the new HealthKit integration or all UI behavior.
 
 Device acceptance after approval: update Health permissions; check actual data/missing-data behavior for added dashboard metrics; connect representative quantity/category/workout records from the library; edit sleep and REM bounds and verify indicators/chart lines; enable and set personal vital ranges; exercise 7/30-day switching, app relaunch, refresh, notification mute/rescheduling, and larger text. No real records should be exported for testing.
 
