@@ -54,7 +54,7 @@ The catalog was authored against the iOS 27.1 SDK; use Xcode 27.1 or a compatibl
 
 For core tests: `swift test`. For an unsigned compile: `xcodebuild -project HealthDashboard.xcodeproj -scheme HealthDashboard -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO build`.
 
-Continuous integration: `.github/workflows/ci.yml` runs `swift test` and the unsigned `xcodebuild` above on a macOS runner for pushes to `main` and for pull requests. It needs a runner Xcode with the iOS 27.1 SDK or newer; check the `xcodebuild -version` line in the log if the build fails on missing types. macOS runners on a private repository use Actions minutes at a higher rate than Linux runners.
+Continuous integration: `.github/workflows/ci.yml` runs `swift test` and the unsigned `xcodebuild` above on a macOS runner. It runs only when started by hand from the Actions tab, so it never blocks a pull request; testing on a real iPhone (see `docs/DEVICE-ACCEPTANCE.md`) is the release check. It needs a runner Xcode with the iOS 27.1 SDK or newer; check the `xcodebuild -version` line in the log if the build fails on missing types. macOS runners on a private repository use Actions minutes at a higher rate than Linux runners.
 
 Historical validation of the redesign (not a guarantee of a new checkout): all 12 existing automated calculation/biomarker tests pass; iPhone and simulator builds succeeded; a signed iPhone build was prepared; the synthetic Today screen was visually inspected in a simulator. Plist syntax and Git whitespace checks pass. New live Health categories, full interaction/accessibility checks, and the updated iPhone installation are pending. Existing tests do not cover the new HealthKit integration or all UI behavior.
 
