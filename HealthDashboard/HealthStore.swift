@@ -21,6 +21,8 @@ import SwiftUI
     private let rhr = HKObjectType.quantityType(forIdentifier: .restingHeartRate)!
     private let hrv = HKObjectType.quantityType(forIdentifier: .heartRateVariabilitySDNN)!
 
+    // Changing mode invalidates in-flight foreground reads. A late HealthKit result
+    // must not replace synthetic rows or reveal old live values after switching modes.
     func setDemo(_ enabled: Bool) {
         generation += 1; busy = false; demo = enabled; lastSync = nil; message = nil
         UserDefaults.standard.set(enabled, forKey: "demoMode")
@@ -37,6 +39,9 @@ import SwiftUI
             await refresh()
         } catch { message = "Health access request failed. You can review access in the Health app and retry." }
     }
+    // Fetch a 30-day window, reduce samples into dated rows, then publish on the main
+    // actor. Empty sample sets stay nil: HealthKit does not disclose read denial.
+    // This is a foreground refresh, not observer delivery or overnight monitoring.
     func refresh() async {
         guard !busy else { return }
         if demo { setDemo(true); return }

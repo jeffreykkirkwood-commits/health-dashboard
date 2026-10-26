@@ -18,6 +18,9 @@ struct HealthReading: Identifiable {
     @Published var unit = ""
     private let health = HKHealthStore()
 
+    // Request only the selected type and show its newest 100 samples in 30 days.
+    // These are individual observations, not daily aggregates. Unit compatibility
+    // is checked before conversion; a failed or empty read is never fabricated data.
     func load(_ metric: HealthMetricDefinition) async {
         guard !busy, HKHealthStore.isHealthDataAvailable(), let type = metric.sampleType else { return }
         busy = true; readings = []; message = nil
