@@ -25,3 +25,5 @@ Baseline: `64f25a3860f3edb5dfdffae1b90853c2c69f3847`. Every tracked baseline fil
 | `docs/PORTFOLIO-DEMO.md` | Comment insertion excluded | Existing prose documentation; supplements code explanations, no executable workflow. |
 | `docs/START-HERE.md` | New prose | Novice read order and vocabulary; supplements source comments. |
 | `docs/CODE-COVERAGE.md` | New prose | This complete file checklist. |
+| `.github/workflows/ci.yml` | In-file guidance added | [FEATURE 01 — Calculation and biomarker tests](../.github/workflows/ci.yml); [FEATURE 02 — Unsigned compile of the iPhone app](../.github/workflows/ci.yml). Added after the baseline. |
+| `docs/DEVICE-ACCEPTANCE.md` | New prose | Manual on-device acceptance checklist; status not yet run. Added after the baseline. |

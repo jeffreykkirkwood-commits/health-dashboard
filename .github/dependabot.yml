@@ -1,0 +1,17 @@
+# Dependabot version updates: once a week, open small PRs that bump outdated
+# dependencies. At most 5 open PRs per ecosystem so the queue stays reviewable.
+# Version-update PRs start only after this file is on main. Dependabot alerts and
+# security updates are separate repository settings and are not changed here.
+version: 2
+updates:
+  - package-ecosystem: "swift"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5

@@ -54,9 +54,11 @@ The catalog was authored against the iOS 27.1 SDK; use Xcode 27.1 or a compatibl
 
 For core tests: `swift test`. For an unsigned compile: `xcodebuild -project HealthDashboard.xcodeproj -scheme HealthDashboard -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO build`.
 
+Continuous integration: `.github/workflows/ci.yml` runs `swift test` and the unsigned `xcodebuild` above on a macOS runner. It runs only when started by hand from the Actions tab, so it never blocks a pull request; testing on a real iPhone (see `docs/DEVICE-ACCEPTANCE.md`) is the release check. It needs a runner Xcode with the iOS 27.1 SDK or newer; check the `xcodebuild -version` line in the log if the build fails on missing types. macOS runners on a private repository use Actions minutes at a higher rate than Linux runners.
+
 Historical validation of the redesign (not a guarantee of a new checkout): all 12 existing automated calculation/biomarker tests pass; iPhone and simulator builds succeeded; a signed iPhone build was prepared; the synthetic Today screen was visually inspected in a simulator. Plist syntax and Git whitespace checks pass. New live Health categories, full interaction/accessibility checks, and the updated iPhone installation are pending. Existing tests do not cover the new HealthKit integration or all UI behavior.
 
-Device acceptance after approval: update Health permissions; check actual data/missing-data behavior for added dashboard metrics; connect representative quantity/category/workout records from the library; edit sleep and REM bounds and verify indicators/chart lines; enable and set personal vital ranges; exercise 7/30-day switching, app relaunch, refresh, notification mute/rescheduling, and larger text. No real records should be exported for testing.
+Device acceptance after approval: update Health permissions; check actual data/missing-data behavior for added dashboard metrics; connect representative quantity/category/workout records from the library; edit sleep and REM bounds and verify indicators/chart lines; enable and set personal vital ranges; exercise 7/30-day switching, app relaunch, refresh, notification mute/rescheduling, and larger text. No real records should be exported for testing. Record results in the [device acceptance checklist](docs/DEVICE-ACCEPTANCE.md) (not yet run).
 
 ## Design research
 
