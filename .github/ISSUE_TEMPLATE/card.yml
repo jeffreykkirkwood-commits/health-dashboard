@@ -1,0 +1,48 @@
+name: Card
+description: Plain-English card — Type, what changes, who notices, files, and proof
+title: "[Type]: short title"
+labels: []
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      description: Does this Add, Fix, or Remove something?
+      options:
+        - Add
+        - Fix
+        - Remove
+    validations:
+      required: true
+  - type: textarea
+    id: what-changes
+    attributes:
+      label: What changes
+      description: One sentence describing the change.
+      placeholder: e.g. Add a GitHub issue form and PR template in the card format.
+    validations:
+      required: true
+  - type: textarea
+    id: who-notices
+    attributes:
+      label: Who notices and how
+      description: What a viewer or customer sees, or "nobody, behind the scenes only".
+      placeholder: e.g. nobody, behind the scenes only
+    validations:
+      required: true
+  - type: textarea
+    id: files-touched
+    attributes:
+      label: Files touched
+      description: Each changed repo file as a clickable link (or path if the file is new).
+      placeholder: e.g. `.github/pull_request_template.md`
+    validations:
+      required: true
+  - type: textarea
+    id: proof
+    attributes:
+      label: Proof
+      description: Fill this in once QA passes — tests run, results, what was not tested, and a link to QA's pass and live check.
+      placeholder: e.g. YAML parsed clean; CI green on the PR; form rendering in the GitHub web UI not tested until after merge.
+    validations:
+      required: false
