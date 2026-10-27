@@ -1,0 +1,27 @@
+# Card format check: fails a pull request when any required card-format section
+# in the PR body is missing or blank (HTML comments and whitespace do not count).
+# Skips Dependabot PRs. Body is passed via env var to avoid shell injection.
+name: Card format
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  check-card-format:
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Check PR body card format
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: python3 .github/scripts/check_card_format.py
