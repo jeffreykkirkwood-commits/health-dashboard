@@ -33,7 +33,7 @@ jobs:
     container:
       image: swift:6.4.1-noble
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Swift version
         run: swift --version
@@ -52,7 +52,7 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # The catalog targets the iOS 27.1 SDK. Pick the newest Xcode on the runner and
       # print its version so an older SDK is easy to spot in the log.
