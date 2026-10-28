@@ -1,3 +1,5 @@
+<!-- Title: start it with exactly one category, then a space, e.g. "[Bug fix] Fix empty Work tab". Pick one of: [Product enhancement], [Bug fix], [Security], [Vulnerability patch], [Resiliency], [Build & tooling]. The Card format check fails without one. -->
+
 Issue: #
 
 ## Type

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail when a pull request body is missing required card-format sections."""
+"""Fail when a pull request title has no category or its body is missing card-format sections."""
 
 from __future__ import annotations
 
@@ -14,6 +14,32 @@ REQUIRED_HEADINGS = (
     "Files touched",
     "Proof",
 )
+
+# PR title rule (junkjaws-app #148): the title starts with exactly one of these
+# categories in square brackets, then a space, then the rest of the title.
+CATEGORIES = (
+    "Product enhancement",
+    "Bug fix",
+    "Security",
+    "Vulnerability patch",
+    "Resiliency",
+    "Build & tooling",
+)
+CATEGORY_TAGS = tuple(f"[{c}]" for c in CATEGORIES)
+
+
+def title_problem(title: str) -> str | None:
+    """Why the PR title does not start with exactly one category tag, or None if it does."""
+    for tag in CATEGORY_TAGS:
+        if title.startswith(tag + " "):
+            rest = title[len(tag) + 1:].strip()
+            if not rest:
+                return f"Title has {tag} but nothing after it"
+            if rest.startswith(CATEGORY_TAGS):
+                return "Title starts with more than one category; use exactly one"
+            return None
+    return "Title does not start with a category in square brackets followed by a space"
+
 
 HTML_COMMENT = re.compile(r"<!--.*?-->", re.DOTALL)
 HEADING_LINE = re.compile(r"^##\s+(.+?)\s*$", re.MULTILINE)
@@ -44,6 +70,10 @@ def main() -> int:
     sections = section_bodies(body)
     problems: list[str] = []
 
+    bad_title = title_problem(os.environ.get("PR_TITLE") or "")
+    if bad_title:
+        problems.append(bad_title)
+
     for required in REQUIRED_HEADINGS:
         key = required.lower()
         if key not in sections:
@@ -55,14 +85,18 @@ def main() -> int:
 
     if problems:
         print("Card format check failed.")
-        print("Fill every required section in the pull request body:")
+        print("Fix the pull request title and fill every required section in the body:")
         for problem in problems:
             print(f"  - {problem}")
         print()
         print("Required headings: " + ", ".join(f"## {h}" for h in REQUIRED_HEADINGS))
+        if bad_title:
+            print("Start the title with one of these, then a space: "
+                  + ", ".join(CATEGORY_TAGS))
         return 1
 
-    print("Card format check passed: all required sections are present and non-blank.")
+    print("Card format check passed: the title starts with a category and all required "
+          "sections are present and non-blank.")
     return 0
 
 
