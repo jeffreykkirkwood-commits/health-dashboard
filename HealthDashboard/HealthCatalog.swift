@@ -84,7 +84,9 @@ enum HealthCatalog {
         result.append(.init(id: HKQuantityTypeIdentifier.atrialFibrillationBurden.rawValue, title: "Atrial Fibrillation Burden", group: "Heart", kind: "quantity", minimumMajor: 16, minimumMinor: 0, categoryLabels: [:]))
         result.append(.init(id: HKQuantityTypeIdentifier.heartRate.rawValue, title: "Heart Rate", group: "Heart", kind: "quantity", minimumMajor: 8, minimumMinor: 0, categoryLabels: [:]))
         result.append(.init(id: HKQuantityTypeIdentifier.heartRateRecoveryOneMinute.rawValue, title: "Heart Rate Recovery One Minute", group: "Heart", kind: "quantity", minimumMajor: 16, minimumMinor: 0, categoryLabels: [:]))
+        #if compiler(>=6.4)  // the name only exists in the iOS 27 SDK (Xcode 27, Swift 6.4); Xcode 26 cannot compile it (#33)
         if #available(iOS 27.0, *) { result.append(.init(id: HKQuantityTypeIdentifier.heartRateVariabilityRMSSD.rawValue, title: "Heart Rate Variability RMSSD", group: "Heart", kind: "quantity", minimumMajor: 27, minimumMinor: 0, categoryLabels: [:])) }
+        #endif
         result.append(.init(id: HKQuantityTypeIdentifier.heartRateVariabilitySDNN.rawValue, title: "Heart rate variability (SDNN)", group: "Heart", kind: "quantity", minimumMajor: 11, minimumMinor: 0, categoryLabels: [:]))
         result.append(.init(id: HKQuantityTypeIdentifier.peripheralPerfusionIndex.rawValue, title: "Peripheral Perfusion Index", group: "Heart", kind: "quantity", minimumMajor: 8, minimumMinor: 0, categoryLabels: [:]))
         result.append(.init(id: HKQuantityTypeIdentifier.restingHeartRate.rawValue, title: "Resting Heart Rate", group: "Heart", kind: "quantity", minimumMajor: 11, minimumMinor: 0, categoryLabels: [:]))
@@ -171,7 +173,9 @@ enum HealthCatalog {
         result.append(.init(id: HKCategoryTypeIdentifier.appleWalkingSteadinessEvent.rawValue, title: "Walking Steadiness Event", group: "Mobility", kind: "category", minimumMajor: 15, minimumMinor: 0, categoryLabels: [1: "Initial Low", 2: "Initial Very Low", 3: "Repeat Low", 4: "Repeat Very Low"]))
         result.append(.init(id: HKCategoryTypeIdentifier.handwashingEvent.rawValue, title: "Handwashing Event", group: "Other", kind: "category", minimumMajor: 14, minimumMinor: 0, categoryLabels: [0: "Not Applicable"]))
         result.append(.init(id: HKCategoryTypeIdentifier.toothbrushingEvent.rawValue, title: "Toothbrushing Event", group: "Other", kind: "category", minimumMajor: 13, minimumMinor: 0, categoryLabels: [0: "Not Applicable"]))
+        #if compiler(>=6.4)  // iOS 27 SDK only (#33)
         if #available(iOS 27.0, *) { result.append(.init(id: HKCategoryTypeIdentifier.bleedingAfterMenopause.rawValue, title: "Bleeding After Menopause", group: "Reproductive Health", kind: "category", minimumMajor: 27, minimumMinor: 0, categoryLabels: [1: "Unspecified", 2: "Light", 3: "Medium", 4: "Heavy", 5: "None"])) }
+        #endif
         if #available(iOS 18.0, *) { result.append(.init(id: HKCategoryTypeIdentifier.bleedingAfterPregnancy.rawValue, title: "Bleeding After Pregnancy", group: "Reproductive Health", kind: "category", minimumMajor: 18, minimumMinor: 0, categoryLabels: [1: "Unspecified", 2: "Light", 3: "Medium", 4: "Heavy", 5: "None"])) }
         if #available(iOS 18.0, *) { result.append(.init(id: HKCategoryTypeIdentifier.bleedingDuringPregnancy.rawValue, title: "Bleeding During Pregnancy", group: "Reproductive Health", kind: "category", minimumMajor: 18, minimumMinor: 0, categoryLabels: [1: "Unspecified", 2: "Light", 3: "Medium", 4: "Heavy", 5: "None"])) }
         result.append(.init(id: HKCategoryTypeIdentifier.cervicalMucusQuality.rawValue, title: "Cervical Mucus Quality", group: "Reproductive Health", kind: "category", minimumMajor: 9, minimumMinor: 0, categoryLabels: [1: "Dry", 2: "Sticky", 3: "Creamy", 4: "Watery", 5: "Egg White"]))
@@ -180,7 +184,9 @@ enum HealthCatalog {
         result.append(.init(id: HKCategoryTypeIdentifier.intermenstrualBleeding.rawValue, title: "Intermenstrual Bleeding", group: "Reproductive Health", kind: "category", minimumMajor: 9, minimumMinor: 0, categoryLabels: [0: "Not Applicable"]))
         result.append(.init(id: HKCategoryTypeIdentifier.irregularMenstrualCycles.rawValue, title: "Irregular Menstrual Cycles", group: "Reproductive Health", kind: "category", minimumMajor: 16, minimumMinor: 0, categoryLabels: [0: "Not Applicable"]))
         result.append(.init(id: HKCategoryTypeIdentifier.lactation.rawValue, title: "Lactation", group: "Reproductive Health", kind: "category", minimumMajor: 14, minimumMinor: 3, categoryLabels: [0: "Not Applicable"]))
+        #if compiler(>=6.4)  // iOS 27 SDK only (#33)
         if #available(iOS 27.0, *) { result.append(.init(id: HKCategoryTypeIdentifier.menopausalState.rawValue, title: "Menopausal State", group: "Reproductive Health", kind: "category", minimumMajor: 27, minimumMinor: 0, categoryLabels: [1: "Menopause", 2: "Perimenopause", 3: "None"])) }
+        #endif
         result.append(.init(id: HKCategoryTypeIdentifier.menstrualFlow.rawValue, title: "Menstrual Flow", group: "Reproductive Health", kind: "category", minimumMajor: 9, minimumMinor: 0, categoryLabels: [1: "Unspecified", 2: "Light", 3: "Medium", 4: "Heavy", 5: "None"]))
         result.append(.init(id: HKCategoryTypeIdentifier.ovulationTestResult.rawValue, title: "Ovulation Test Result", group: "Reproductive Health", kind: "category", minimumMajor: 9, minimumMinor: 0, categoryLabels: [1: "Negative", 3: "Indeterminate"]))
         result.append(.init(id: HKCategoryTypeIdentifier.persistentIntermenstrualBleeding.rawValue, title: "Persistent Intermenstrual Bleeding", group: "Reproductive Health", kind: "category", minimumMajor: 16, minimumMinor: 0, categoryLabels: [0: "Not Applicable"]))
