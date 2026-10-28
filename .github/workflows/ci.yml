@@ -1,10 +1,11 @@
 # FEATURE — Checks for the Health Dashboard.
 # swift-tests-linux runs the SwiftPM calculation/biomarker tests on every pull request and
 # every push to main, on a free Linux runner inside the official Swift Docker image.
-# test-and-build (macOS: SwiftPM tests + unsigned iOS compile) runs only when started by
-# hand (Actions tab > CI > Run workflow), because macOS runners are not currently
-# available to this repo, see
-# https://github.com/jeffreykkirkwood-commits/health-dashboard/issues/7.
+# test-and-build (macOS: SwiftPM tests, unsigned iOS compile, and an iPhone Simulator
+# build with a launch screenshot) is skipped while this repo is private, because the free
+# macOS runner minutes for private repos are used up (see issue #14). It still runs when
+# started by hand (Actions tab > CI > Run workflow). Once the repo is public it runs on
+# every pull request and every push to main, with no other change needed.
 # Device testing on a real iPhone is the release check.
 # No signing keys, provisioning profiles or real health data are used.
 name: CI
@@ -43,13 +44,13 @@ jobs:
       - name: Run package tests
         run: swift test
 
-  # FEATURE 02 — macOS: package tests plus an unsigned compile of the iPhone app.
-  # Manual only: the `if:` keeps it from queueing on pull requests and main, where it
-  # would wait for a macOS runner and then be cancelled.
+  # FEATURE 02 — macOS: package tests, an unsigned compile of the iPhone app, and a
+  # Simulator launch screenshot. The `if:` skips it while the repo is private, so pull
+  # requests don't sit waiting for a macOS runner; once public, it runs on every PR and push.
   test-and-build:
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' || !github.event.repository.private
     runs-on: macos-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
 
@@ -73,3 +74,53 @@ jobs:
           -destination 'generic/platform=iOS'
           CODE_SIGNING_ALLOWED=NO
           build
+
+      # FEATURE 03 — iPhone Simulator build, launch and screenshot (#21, #24).
+      # HealthKit has no data on the Simulator, so the screenshot shows the app's launch
+      # and empty state only. Real-data checks stay on a physical iPhone.
+      - name: Simulator build
+        run: >
+          xcodebuild -project HealthDashboard.xcodeproj
+          -scheme HealthDashboard
+          -destination 'generic/platform=iOS Simulator'
+          -derivedDataPath build
+          CODE_SIGNING_ALLOWED=NO
+          build
+
+      - name: Launch in Simulator and take a screenshot
+        run: |
+          set -euo pipefail
+          # Newest available iPhone: highest iOS runtime, then last listed device in it.
+          UDID=$(xcrun simctl list devices available -j | python3 -c '
+          import json, re, sys
+          devices = json.load(sys.stdin)["devices"]
+          def version(runtime):
+              m = re.search(r"iOS-(\d+)-(\d+)(?:-(\d+))?$", runtime)
+              return tuple(int(x or 0) for x in m.groups()) if m else None
+          phones = [(version(rt), d["udid"], d["name"])
+                    for rt, ds in devices.items() if version(rt)
+                    for d in ds if d["name"].startswith("iPhone")]
+          if not phones:
+              sys.exit("No available iPhone simulator found")
+          best = max(phones, key=lambda p: p[0])[0]
+          ver, udid, name = [p for p in phones if p[0] == best][-1]
+          print(f"Using {name} (iOS {ver}) {udid}", file=sys.stderr)
+          print(udid)
+          ')
+          xcrun simctl bootstatus "$UDID" -b
+          APP=$(find build/Build/Products/Debug-iphonesimulator -maxdepth 1 -name "*.app" | head -n 1)
+          xcrun simctl install "$UDID" "$APP"
+          BUNDLE_ID=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP/Info.plist")
+          echo "Launching $BUNDLE_ID"
+          xcrun simctl launch "$UDID" "$BUNDLE_ID"
+          sleep 5
+          mkdir -p screenshots
+          xcrun simctl io "$UDID" screenshot screenshots/launch.png
+
+      - name: Upload Simulator screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: simulator-screenshots
+          path: screenshots/
+          retention-days: 7
