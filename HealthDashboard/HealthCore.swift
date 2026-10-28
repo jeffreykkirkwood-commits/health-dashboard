@@ -5,10 +5,10 @@ import Foundation
 // FEATURE 01 — Describe one recorded sleep interval
 // Each segment carries start/end times, a recorded stage and the source app or
 // device. One night may have overlapping segments from several sources.
-struct SleepSegment {
+struct SleepSegment: Codable {
     let start: Date
     let end: Date
-    let stage: Int // HealthKit: 1 unspecified, 3 core, 4 deep, 5 REM
+    let stage: Int // HealthKit: 1 unspecified, 2 awake, 3 core, 4 deep, 5 REM
     let source: String
 }
 // FEATURE 02 — Describe one day for the dashboard
@@ -100,5 +100,83 @@ enum HealthMath {
                 remPercent: missing ? nil : 18 + Double(index % 9), restingHR: missing ? nil : 55 + Double(index % 7),
                 hrv: missing ? nil : 38 + Double(index % 13), measuredAt: missing ? nil : min(now, date.addingTimeInterval(7 * 3600)), sleepSource: "Synthetic fixture")
         }
+    }
+}
+
+// FEATURE 10 — Describe the fictional 35-day Apple Health-shaped data set
+// health.synthetic.v1.json holds made-up samples shaped like what the app reads:
+// sleep segments (awake included), single HRV readings, daily resting heart rate
+// and daily activity totals. A day with no record has no row; a zero day has a
+// row with 0. `cases` names the dates of each no-data and edge case, as
+// yyyy-MM-dd in `timeZone`, so later math and card tests can point at them.
+struct HRVReading: Codable, Equatable {
+    let start: Date
+    let end: Date
+    let valueMs: Double // SDNN, milliseconds
+}
+struct RestingHRReading: Codable, Equatable {
+    let start: Date
+    let end: Date
+    let bpm: Double
+}
+struct DailyActivity: Codable, Equatable {
+    let start: Date
+    let end: Date
+    let activeEnergyKcal: Double
+    let exerciseMinutes: Double
+}
+struct SyntheticCases: Codable, Equatable {
+    let missingDays: [String]
+    let noHRVDay: String
+    let singleHRVReadingNight: String
+    let daytimeOnlyHRVDay: String
+    let sleepAndDaytimeHRVDay: String
+    let noRestingHRDay: String
+    let noSleepNight: String
+    let zeroActivityDay: String
+    let bedtimeAfterMidnightNights: [String]
+    let bedtimeBeforeMidnightNextToAfter: String
+    let noAwakeDataNight: String
+    let partialToday: String
+    let shortHistoryAsOf: String
+}
+struct SyntheticHealthSet: Codable {
+    let schemaVersion: Int
+    let syntheticOnly: Bool
+    let subjectID: String
+    let subjectDisplay: String
+    let note: String
+    let timeZone: String
+    let firstDay: String
+    let referenceNow: Date
+    let cases: SyntheticCases
+    let sleepSegments: [SleepSegment]
+    let hrvReadings: [HRVReading]
+    let restingHeartRate: [RestingHRReading]
+    let dailyActivity: [DailyActivity]
+}
+// FEATURE 11 — Load the fictional data set, parsing only
+// Same bundle choice as the biomarker fixture. Dates are ISO 8601 with an offset.
+// Reject anything not marked synthetic or not version 1; no math happens here.
+enum SyntheticHealthError: Error, Equatable { case unsupportedSchema, syntheticOnlyRequired }
+enum SyntheticHealth {
+    static func loadBundled() throws -> SyntheticHealthSet {
+        #if SWIFT_PACKAGE
+        let bundle = Bundle.module
+        #else
+        let bundle = Bundle.main
+        #endif
+        guard let url = bundle.url(forResource: "health.synthetic.v1", withExtension: "json") else {
+            throw CocoaError(.fileNoSuchFile)
+        }
+        return try decode(Data(contentsOf: url))
+    }
+    static func decode(_ data: Data) throws -> SyntheticHealthSet {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let set = try decoder.decode(SyntheticHealthSet.self, from: data)
+        guard set.schemaVersion == 1 else { throw SyntheticHealthError.unsupportedSchema }
+        guard set.syntheticOnly, set.subjectID.hasPrefix("SYNTHETIC") else { throw SyntheticHealthError.syntheticOnlyRequired }
+        return set
     }
 }
