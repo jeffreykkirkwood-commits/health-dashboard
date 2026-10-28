@@ -84,7 +84,9 @@ enum HealthCatalog {
         result.append(.init(id: HKQuantityTypeIdentifier.atrialFibrillationBurden.rawValue, title: "Atrial Fibrillation Burden", group: "Heart", kind: "quantity", minimumMajor: 16, minimumMinor: 0, categoryLabels: [:]))
         result.append(.init(id: HKQuantityTypeIdentifier.heartRate.rawValue, title: "Heart Rate", group: "Heart", kind: "quantity", minimumMajor: 8, minimumMinor: 0, categoryLabels: [:]))
         result.append(.init(id: HKQuantityTypeIdentifier.heartRateRecoveryOneMinute.rawValue, title: "Heart Rate Recovery One Minute", group: "Heart", kind: "quantity", minimumMajor: 16, minimumMinor: 0, categoryLabels: [:]))
+        #if compiler(>=6.4)  // the name only exists in the iOS 27 SDK (Xcode 27, Swift 6.4); Xcode 26 cannot compile it (#33)
         if #available(iOS 27.0, *) { result.append(.init(id: HKQuantityTypeIdentifier.heartRateVariabilityRMSSD.rawValue, title: "Heart Rate Variability RMSSD", group: "Heart", kind: "quantity", minimumMajor: 27, minimumMinor: 0, categoryLabels: [:])) }
+        #endif
         result.append(.init(id: HKQuantityTypeIdentifier.heartRateVariabilitySDNN.rawValue, title: "Heart rate variability (SDNN)", group: "Heart", kind: "quantity", minimumMajor: 11, minimumMinor: 0, categoryLabels: [:]))
         result.append(.init(id: HKQuantityTypeIdentifier.peripheralPerfusionIndex.rawValue, title: "Peripheral Perfusion Index", group: "Heart", kind: "quantity", minimumMajor: 8, minimumMinor: 0, categoryLabels: [:]))
         result.append(.init(id: HKQuantityTypeIdentifier.restingHeartRate.rawValue, title: "Resting Heart Rate", group: "Heart", kind: "quantity", minimumMajor: 11, minimumMinor: 0, categoryLabels: [:]))
