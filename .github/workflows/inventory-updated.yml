@@ -1,0 +1,73 @@
+# Inventory updated gate (#224): a PR whose "Inventory:" line lists a change waits for an
+# Operations comment starting "Inventory updated". "Inventory: no change" passes right away.
+# The result is a commit status named "inventory-updated" on the PR head SHA, so a comment
+# (issue_comment run) and a body edit (pull_request run) both update the same PR status.
+# Safety: the PR body and comments are read with gh api into files and env, never ${{ }}
+# interpolated into run:. The only values interpolated are the numeric PR number and the
+# repository name. Note: issue_comment runs use this file from main, so the comment path only
+# works once this is merged.
+# #227: a confirmation counts only if posted after the Inventory line last changed (read from
+# the PR body's edit history), and deleting a comment re-runs the check.
+name: Inventory updated
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+  issue_comment:
+    types: [created, edited, deleted]
+
+permissions:
+  contents: read
+  pull-requests: read
+  statuses: write
+
+# #239: comment runs are filed by GitHub on main's newest commit, and Render's "deploy after
+# checks pass" waits on every check there, so a cancelled comment run blocked a deploy. Each
+# comment run gets its own group and is never cancelled; only PR runs (filed on the PR head)
+# still replace each other.
+concurrency:
+  group: inventory-${{ github.event.pull_request.number || github.event.issue.number }}-${{ github.event_name == 'pull_request' && 'pr' || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  set-inventory-status:
+    if: >-
+      (github.event_name == 'pull_request' && github.event.pull_request.user.login != 'dependabot[bot]') ||
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request && github.event.issue.user.login != 'dependabot[bot]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Decide and set the inventory-updated status on the PR head
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$REPO/pulls/$PR_NUMBER" > "$RUNNER_TEMP/pr.json"
+          HEAD_SHA=$(jq -r .head.sha "$RUNNER_TEMP/pr.json")
+          PR_BODY=$(jq -r '.body // ""' "$RUNNER_TEMP/pr.json")
+          gh api --paginate "repos/$REPO/issues/$PR_NUMBER/comments" | jq -s 'add // []' > "$RUNNER_TEMP/comments.json"
+          # The Actions token may be refused the edit history ("Resource not accessible by
+          # integration" once a body has been edited). Then fall back to the pre-#227 rule (any
+          # Operations confirmation counts) with a warning, instead of failing the job.
+          if ! gh api graphql -F n="$PR_NUMBER" -f owner="${REPO%%/*}" -f name="${REPO#*/}" -f query='
+            query($owner: String!, $name: String!, $n: Int!) {
+              repository(owner: $owner, name: $name) { pullRequest(number: $n) {
+                userContentEdits(first: 100) { nodes { editedAt diff } } } } }' \
+            --jq '.data.repository.pullRequest.userContentEdits.nodes' > "$RUNNER_TEMP/edits.json"; then
+            echo "::warning title=Inventory gate::Couldn't read the PR body's edit history with the Actions token, so any Operations \"Inventory updated\" comment counts (the rule before #227)."
+            : > "$RUNNER_TEMP/edits.json"
+          fi
+          RESULT=$(PR_BODY="$PR_BODY" COMMENTS_FILE="$RUNNER_TEMP/comments.json" EDITS_FILE="$RUNNER_TEMP/edits.json" \
+            python3 .github/scripts/check_inventory_updated.py)
+          STATE=$(jq -r .state <<<"$RESULT")
+          DESC=$(jq -r .description <<<"$RESULT")
+          echo "inventory-updated: $STATE - $DESC"
+          gh api -X POST "repos/$REPO/statuses/$HEAD_SHA" -f state="$STATE" -f context=inventory-updated \
+            -f description="$DESC" -f target_url="$RUN_URL" > /dev/null
