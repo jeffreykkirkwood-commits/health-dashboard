@@ -1,0 +1,6 @@
+states/
+*.out
+*.toolbox/
+*_TTrace_*.tla
+*_TTrace_*.bin
+
