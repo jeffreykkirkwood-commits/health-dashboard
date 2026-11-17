@@ -71,7 +71,9 @@ final class BaselineMathTests: XCTestCase {
     }
     func testMissingDaysAreLeftOutAndOnlyLast30DaysCount() {
         // 30-day window Sep 29 – Oct 28: 3 missing days and the no-HRV day are skipped, not 0.
-        guard case let .compared(_, b, _) = hrv(set.cases.partialToday) else { return XCTFail() }
+        guard case let .compared(_, b, _) = hrv(set.cases.partialToday) else {
+            return XCTFail("expected compared HRV baseline for partialToday")
+        }
         XCTAssertEqual(b.days, 30 - set.cases.missingDays.count - 1)
         // Dropping days 31+ (Sep 23 – 28) changes nothing.
         let cutoff = day("2026-09-29")
@@ -110,12 +112,16 @@ final class BaselineMathTests: XCTestCase {
     }
     // FEATURE 08 — Activity: last 7 full days vs the previous 28, today left out
     func testEffortTrend() throws {
-        guard case let .compared(energy, exercise, overall) = HealthMath.effortTrend(today: day(set.cases.partialToday), activity: set.dailyActivity, calendar: cal) else { return XCTFail() }
+        guard case let .compared(energy, exercise, overall) = HealthMath.effortTrend(today: day(set.cases.partialToday), activity: set.dailyActivity, calendar: cal) else {
+            return XCTFail("expected compared effort trend for partialToday")
+        }
         XCTAssertEqual(energy.recentPerDay, 4275.0 / 7, accuracy: 1e-9); XCTAssertEqual(energy.previousPerDay, 449.56, accuracy: 1e-9)
         XCTAssertEqual(exercise.recentPerDay, 265.0 / 7, accuracy: 1e-9); XCTAssertEqual(exercise.previousPerDay, 28.56, accuracy: 1e-9)
         XCTAssertEqual(energy.label, .more); XCTAssertEqual(exercise.label, .more); XCTAssertEqual(overall, .more)
         // Oct 21: exercise up 9.3% is "about the same"; energy up 31.8% is "more"; overall (mean 20.6%) "more".
-        guard case let .compared(e2, x2, o2) = HealthMath.effortTrend(today: day("2026-10-21"), activity: set.dailyActivity, calendar: cal) else { return XCTFail() }
+        guard case let .compared(e2, x2, o2) = HealthMath.effortTrend(today: day("2026-10-21"), activity: set.dailyActivity, calendar: cal) else {
+            return XCTFail("expected compared effort trend for 2026-10-21")
+        }
         XCTAssertEqual(x2.label, .aboutTheSame); XCTAssertEqual(e2.label, .more); XCTAssertEqual(o2, .more)
         XCTAssertEqual(x2.previousPerDay, 501.0 / 18, accuracy: 1e-9, "missing days skipped, the zero day counted as 0")
         XCTAssertEqual(HealthMath.effortTrend(today: day("2026-10-03"), activity: set.dailyActivity, calendar: cal), .notEnoughHistory(previousDays: 3))

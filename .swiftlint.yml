@@ -1,0 +1,48 @@
+# SwiftLint settings for the SwiftLint CI check (team #8).
+# Run locally (same version CI pins): brew install swiftlint  # or download 0.65.1
+#   swiftlint lint --config .swiftlint.yml
+#
+# only_rules: catch real mistakes (force cast/try, unused bindings, empty leftovers,
+# duplicate imports/cases, bare XCTFail). Style rules such as line_length and
+# identifier_name are left out on purpose — this repo's long FEATURE comment
+# headers and short test names would fail hundreds of checks without improving
+# correctness (same idea as junkjaws-app ruff.toml selecting only pyflakes F / E9).
+only_rules:
+  - force_cast
+  - force_try
+  - unused_optional_binding
+  - unused_closure_parameter
+  - empty_enum_arguments
+  - empty_parameters
+  - empty_parentheses_with_trailing_closure
+  - redundant_void_return
+  - implicit_optional_initialization
+  - unneeded_break_in_switch
+  - unneeded_override
+  - trailing_semicolon
+  - orphaned_doc_comment
+  - void_return
+  - unused_enumerated
+  - identical_operands
+  - duplicate_conditions
+  - duplicate_enum_cases
+  - duplicate_imports
+  - empty_count
+  - empty_string
+  - for_where
+  - unowned_variable_capture
+  - weak_delegate
+  - xctfail_message
+
+included:
+  - HealthDashboard
+  - Tests
+
+excluded:
+  - .build
+  - build
+
+# Fail CI on warnings as well as errors.
+strict: true
+
+reporter: "github-actions-logging"
