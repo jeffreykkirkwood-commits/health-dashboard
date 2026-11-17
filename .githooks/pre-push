@@ -1,0 +1,14 @@
+#!/bin/sh
+# Team guard: never push to main, never force-push, never delete a branch from here.
+# main changes only through a PR merged by QA Tester.
+zero=0000000000000000000000000000000000000000
+while read local_ref local_sha remote_ref remote_sha; do
+  case "$remote_ref" in
+    refs/heads/main|refs/heads/master) echo "pre-push: refusing to push to ${remote_ref#refs/heads/}; open a PR instead." >&2; exit 1;;
+  esac
+  if [ "$local_sha" = "$zero" ]; then echo "pre-push: refusing to delete $remote_ref from here." >&2; exit 1; fi
+  if [ "$remote_sha" != "$zero" ] && ! git merge-base --is-ancestor "$remote_sha" "$local_sha" 2>/dev/null; then
+    echo "pre-push: refusing a non-fast-forward (force) push to $remote_ref." >&2; exit 1
+  fi
+done
+exit 0
