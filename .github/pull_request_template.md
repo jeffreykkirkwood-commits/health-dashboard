@@ -21,5 +21,5 @@ Issue: #
 ## Proof
 
 <!-- Tests you ran and their results, plus what was not tested. Later, a link to QA's pass and live check. -->
-<!-- Inventory: no change, or name every new env var, key, service, permission, or workflow. -->
+<!-- Inventory: say "no change", or name what changed that runs (a service, database, env var name, third-party API or connector, or setting). The Card format check fails without this line. -->
 Inventory: no change
