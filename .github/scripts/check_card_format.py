@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Fail when a pull request title has no category or its body is missing card-format sections."""
+"""Fail when a pull request title has no category, its body is missing card-format
+sections, or its Proof section has no Inventory line."""
 
 from __future__ import annotations
 
@@ -39,6 +40,32 @@ def title_problem(title: str) -> str | None:
                 return "Title starts with more than one category; use exactly one"
             return None
     return "Title does not start with a category in square brackets followed by a space"
+
+
+# Inventory rule (junkjaws-app #222): the Proof section has an "Inventory:" line that
+# names any change to something running (a service, database, env var name, third-party
+# API or connector, or setting), or says "Inventory: no change". Markdown bold around
+# the label is fine. The check only confirms the line is there and not empty.
+INVENTORY_LINE = re.compile(r"^[^\w\n]*inventory[^\w\n]*:(.*)$", re.IGNORECASE | re.MULTILINE)
+LIST_ITEM = re.compile(r"^\s*(?:[-*+]|\d+[.)])\s+.*\w")
+INVENTORY_HINT = ("Add a line under ## Proof such as 'Inventory: no change', or name what "
+                  "changed, e.g. 'Inventory: adds env var name FOO_URL'")
+
+
+def inventory_problem(proof: str) -> str | None:
+    """Why the Proof section has no usable Inventory line, or None if it has one."""
+    text = strip_noise(proof)
+    matches = list(INVENTORY_LINE.finditer(text))
+    if not matches:
+        return "Missing 'Inventory:' line in ## Proof. " + INVENTORY_HINT
+    for match in matches:
+        if re.search(r"\w", match.group(1)):
+            return None
+        # "Inventory:" alone, with the changes listed as bullets right below it.
+        following = [line for line in text[match.end():].splitlines() if line.strip()]
+        if following and LIST_ITEM.match(following[0]):
+            return None
+    return "The 'Inventory:' line in ## Proof is empty. " + INVENTORY_HINT
 
 
 HTML_COMMENT = re.compile(r"<!--.*?-->", re.DOTALL)
@@ -83,6 +110,11 @@ def main() -> int:
         if not content:
             problems.append(f"Blank section: ## {required}")
 
+    if "proof" in sections:
+        bad_inventory = inventory_problem(sections["proof"])
+        if bad_inventory:
+            problems.append(bad_inventory)
+
     if problems:
         print("Card format check failed.")
         print("Fix the pull request title and fill every required section in the body:")
@@ -96,7 +128,7 @@ def main() -> int:
         return 1
 
     print("Card format check passed: the title starts with a category and all required "
-          "sections are present and non-blank.")
+          "sections are present and non-blank, with an Inventory line in Proof.")
     return 0
 
 
