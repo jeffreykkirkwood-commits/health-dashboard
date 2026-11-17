@@ -1,0 +1,82 @@
+# SwiftLint (team #8): fails a PR when Swift sources have a real mistake, such as
+# a force cast/try, an unused optional binding, or a bare XCTFail (rules listed in
+# .swiftlint.yml). Free and read-only: downloads the pinned SwiftLint Linux
+# static binary from GitHub releases, verified against a known SHA-256 — no
+# third-party action, no license key, no secrets. Style rules are left out on
+# purpose (see .swiftlint.yml). Run locally: swiftlint lint --config .swiftlint.yml
+name: SwiftLint
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Cancel an outdated run when a PR gets a newer push. Pushes to main are never cancelled.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  SWIFTLINT_VERSION: "0.65.1"
+  # SHA-256 of swiftlint_linux_amd64.zip from the v0.65.1 GitHub release assets.
+  SWIFTLINT_SHA256: "caeed6f4a679c35539ffaf124f6c4ab4a8416917f7d8796279dc52b74026059d"
+
+jobs:
+  swiftlint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install SwiftLint (pinned, checksum verified)
+        run: |
+          set -euo pipefail
+          base="https://github.com/realm/SwiftLint/releases/download/${SWIFTLINT_VERSION}"
+          zip="swiftlint_linux_amd64.zip"
+          cd "$RUNNER_TEMP"
+          curl -sSfL --retry 3 -o "$zip" "$base/$zip"
+          echo "${SWIFTLINT_SHA256}  ${zip}" | sha256sum --check --strict -
+          unzip -q -o "$zip" swiftlint-static
+          chmod +x swiftlint-static
+          ./swiftlint-static version
+          # Static binary: no SourceKit needed on Linux (same rules as local macOS
+          # for the only_rules set in .swiftlint.yml).
+          ln -sf "$RUNNER_TEMP/swiftlint-static" "$RUNNER_TEMP/swiftlint"
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
+      - name: Self-test (a known-bad sample must fail, and real files must be checked)
+        run: |
+          set -euo pipefail
+          printf '%s\n' \
+            'let casted = 1 as! Int' \
+            'let tried = try! Result { 1 }.get()' \
+            'func f(_ a: Int?) { if let _ = a { } }' \
+            > "$RUNNER_TEMP/bad_sample.swift"
+          if swiftlint lint --config .swiftlint.yml --no-cache \
+              "$RUNNER_TEMP/bad_sample.swift" > bad.txt 2>&1; then
+            cat bad.txt
+            echo "::error::Self-test broken: the bad sample passed"
+            exit 1
+          fi
+          for rule in force_cast force_try unused_optional_binding; do
+            grep -q "$rule" bad.txt || {
+              cat bad.txt
+              echo "::error::Self-test broken: $rule not reported"
+              exit 1
+            }
+          done
+          count=$(find HealthDashboard Tests -name '*.swift' | wc -l | tr -d ' ')
+          echo "SwiftLint will check $count Swift files under HealthDashboard/ and Tests/"
+          [ "$count" -ge 8 ] || {
+            echo "::error::Only $count Swift files found; the check would pass vacuously"
+            exit 1
+          }
+
+      - name: Lint Swift files
+        run: swiftlint lint --config .swiftlint.yml --reporter github-actions-logging
