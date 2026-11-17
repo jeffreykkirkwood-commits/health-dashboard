@@ -1,0 +1,41 @@
+# PR category label (#226): sets the "category: <name>" label from the [Category]
+# tag at the start of the PR title, and swaps it when the tag changes. A title
+# with no tag is left alone; the Card format check (#213) fails it.
+# pull_request (not _target): this repo has no forks. Dependabot-triggered runs
+# are skipped because their token is read-only; a human retitling a Dependabot PR
+# triggers a normal run. The title is passed via env, never put into run:.
+# Free GitHub Actions, built-in token only.
+name: Category label
+
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: category-label-${{ github.event.pull_request.number }}
+
+jobs:
+  label:
+    if: github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set the category label from the PR title
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+        run: python3 -I .github/scripts/category_label.py
