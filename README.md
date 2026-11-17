@@ -76,3 +76,13 @@ This app uses its own layout and native shapes, without copied brand artwork or 
 - [Clinical records](https://developer.apple.com/documentation/healthkit/accessing-health-records)
 - [Xcode requirements](https://developer.apple.com/xcode/system-requirements)
 - [Account and signing limits](https://developer.apple.com/help/account/basics/about-your-developer-account/)
+
+## Pre-push guard (contributors)
+
+The repo ships a git hook, [`.githooks/pre-push`](.githooks/pre-push), that stops three risky pushes before they leave your computer: a push to `main`, a force push, and deleting a remote branch. Turn it on once per clone, from the repository root:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+Check it with `git config core.hooksPath` (it prints `.githooks`). `tests/test_pre_push_hook.py` runs the hook against sample pushes in a throwaway repository.
