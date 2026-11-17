@@ -1,0 +1,36 @@
+# PR issue-link check (#227): fails a pull request whose body does not link a
+# tracking issue with Closes/Fixes/Resolves/Refs #N (a cross-repo owner/repo#N
+# or a full github.com/.../issues/N URL also counts). Reads the PR body text,
+# not GitHub's linked-issues field, so a PR into staging still counts. Text
+# inside HTML comments does not count. Skips Dependabot PRs. Body and user are
+# passed via env (never interpolated into run:) to avoid script injection.
+# 'edited' re-runs it after a body fix. Free GitHub Actions, built-in token only.
+name: PR issue link
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  check-issue-link:
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Check the PR body links an issue
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_USER: ${{ github.event.pull_request.user.login }}
+        run: python3 .github/scripts/check_pr_issue_link.py
