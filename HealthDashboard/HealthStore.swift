@@ -28,9 +28,9 @@ import SwiftUI
     ]
     private let health = HKHealthStore()
     private var generation = 0
-    private let sleep = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
-    private let rhr = HKObjectType.quantityType(forIdentifier: .restingHeartRate)!
-    private let hrv = HKObjectType.quantityType(forIdentifier: .heartRateVariabilitySDNN)!
+    private let sleep = HKCategoryType(.sleepAnalysis)
+    private let rhr = HKQuantityType(.restingHeartRate)
+    private let hrv = HKQuantityType(.heartRateVariabilitySDNN)
 
     // FEATURE 03 — Switch sources without mixing their values
     // When you toggle synthetic data, immediately replace the rows, clear previous
@@ -40,9 +40,9 @@ import SwiftUI
         generation += 1; busy = false; demo = enabled; lastSync = nil; message = nil
         UserDefaults.standard.set(enabled, forKey: "demoMode")
         rows = enabled ? HealthMath.demo() : []
-        extraValues = enabled ? ["HKQuantityTypeIdentifierStepCount": 6840, "HKQuantityTypeIdentifierActiveEnergyBurned": 412,
-                                 "HKQuantityTypeIdentifierAppleExerciseTime": 38, "HKQuantityTypeIdentifierRespiratoryRate": 14.2,
-                                 "HKQuantityTypeIdentifierOxygenSaturation": 0.98] : [:]
+        extraValues = enabled ? [HKQuantityTypeIdentifier.stepCount.rawValue: 6840, HKQuantityTypeIdentifier.activeEnergyBurned.rawValue: 412,
+                                 HKQuantityTypeIdentifier.appleExerciseTime.rawValue: 38, HKQuantityTypeIdentifier.respiratoryRate.rawValue: 14.2,
+                                 HKQuantityTypeIdentifier.oxygenSaturation.rawValue: 0.98] : [:]
         extraSync = nil
     }
     // FEATURE 04 — Ask permission only when the user connects
