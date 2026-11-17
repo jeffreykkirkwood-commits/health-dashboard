@@ -1,0 +1,53 @@
+# Mac runner retry (#36, repeat of #7): when a CI run fails only because the macOS job
+# (test-and-build) never got a GitHub-hosted runner, re-run that job once, automatically.
+# GitHub gives up on an unassigned job after about 15 minutes with the annotation
+# "The job was not acquired by Runner of type hosted even after multiple attempts".
+# CI stays a hard gate: if the retry also gets no runner, or anything else failed,
+# nothing is re-run, CI stays red, and this job says why in its log and summary.
+# Uses only run IDs from the event (no checkout, no PR code, no titles), so no injection.
+name: Mac runner retry
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+
+permissions:
+  actions: write # re-run the failed job
+  checks: read   # read the job's "not acquired" annotation
+
+jobs:
+  retry-if-no-mac-runner:
+    if: github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Re-run once if the macOS job got no runner
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+        run: |
+          set -euo pipefail
+          jobs=$(gh api "repos/$GH_REPO/actions/runs/$RUN_ID/attempts/$ATTEMPT/jobs?per_page=100" --jq '.jobs')
+          mac=$(jq -c '.[] | select(.name == "test-and-build")' <<<"$jobs")
+          others_failed=$(jq '[.[] | select(.name != "test-and-build" and .conclusion != "success" and .conclusion != "skipped")] | length' <<<"$jobs")
+          no_runner=false
+          if [ -n "$mac" ] && [ "$(jq -r '.conclusion' <<<"$mac")" = cancelled ] && [ -z "$(jq -r '.runner_name // ""' <<<"$mac")" ]; then
+            if gh api "$(jq -r '.check_run_url' <<<"$mac")/annotations" --jq '.[].message' | grep -q 'not acquired by Runner'; then
+              no_runner=true
+            fi
+          fi
+          if [ "$no_runner" != true ] || [ "$others_failed" != 0 ]; then
+            echo "CI failed for a reason other than a missing macOS runner; not re-running: $RUN_URL" | tee -a "$GITHUB_STEP_SUMMARY"
+          elif [ "$ATTEMPT" != 1 ]; then
+            echo "::error::No GitHub macOS runner available again on attempt $ATTEMPT; not retrying, CI stays red: $RUN_URL"
+            echo "No GitHub macOS runner available again on attempt $ATTEMPT; not retrying, CI stays red: $RUN_URL" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          else
+            echo "::warning::No GitHub macOS runner available (capacity); re-running test-and-build once: $RUN_URL"
+            echo "No GitHub macOS runner available (capacity); re-ran test-and-build once: $RUN_URL" >> "$GITHUB_STEP_SUMMARY"
+            gh run rerun "$RUN_ID" --failed
+          fi
