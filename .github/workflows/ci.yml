@@ -2,10 +2,10 @@
 # swift-tests-linux runs the SwiftPM calculation/biomarker tests on every pull request and
 # every push to main, on a free Linux runner inside the official Swift Docker image.
 # test-and-build (macOS: SwiftPM tests, unsigned iOS compile, and an iPhone Simulator
-# build with a launch screenshot) is skipped while this repo is private, because the free
-# macOS runner minutes for private repos are used up (see issue #14). It still runs when
-# started by hand (Actions tab > CI > Run workflow). Once the repo is public it runs on
-# every pull request and every push to main, with no other change needed.
+# build with a launch screenshot) does not run on pull_request (issue #36 — macOS runners
+# queue and block PR status). It runs on push to main when the repo is public, and when
+# started by hand (Actions tab > CI > Run workflow). Private repos skip it except dispatch
+# (issue #14 — free macOS minutes). Linux swift-tests-linux stays the required PR check.
 # Device testing on a real iPhone is the release check.
 # No signing keys, provisioning profiles or real health data are used.
 name: CI
@@ -45,10 +45,15 @@ jobs:
         run: swift test
 
   # FEATURE 02 — macOS: package tests, an unsigned compile of the iPhone app, and a
-  # Simulator launch screenshot. The `if:` skips it while the repo is private, so pull
-  # requests don't sit waiting for a macOS runner; once public, it runs on every PR and push.
+  # Simulator launch screenshot. The `if:` skips pull_request entirely (#36) and skips
+  # while private except workflow_dispatch (#14).
   test-and-build:
-    if: github.event_name == 'workflow_dispatch' || !github.event.repository.private
+    # FEATURE — macOS is scarce and often queues; keep it off pull_request so PR
+    # status stays green from Linux alone (issue #36). Still runs on main pushes
+    # when the repo is public, and whenever started by hand.
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && !github.event.repository.private)
     runs-on: macos-latest
     timeout-minutes: 40
     steps:
